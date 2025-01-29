@@ -1,14 +1,14 @@
+Out.txt : main.exe
+	mono main.exe > Out.txt
+
+main.exe : main.cs math.dll
+	mcs -target:exe -reference:math.dll -out:main.exe main.cs
+
+math.dll : math.cs sfuns.dll
+	mcs -target:library -reference:sfuns.dll -out:math.dll math.cs
+
 sfuns.dll : sfuns.cs
 	mcs -target:library -out:sfuns.dll sfuns.cs
 
-math.exe : math.cs sfuns.dll
-	mcs -target:exe -out:math.exe -reference:sfuns.dll math.cs
-
-Out.txt : math.exe              # Out.txt depends on math.exe
-	mono math.exe > Out.txt # run hello.exe, send output to Out.txt
-
-math.exe : math.cs             # math.exe depends on math.cs
-	mcs math.cs             # compile math.cs into math.exe
-
-clean:                           # a phoney target, no dependencies
-	rm -f Out.txt math.exe  # remove secondary files
+clean:
+	rm -f *.exe *.dll Out.txt

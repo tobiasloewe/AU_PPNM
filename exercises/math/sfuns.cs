@@ -1,6 +1,6 @@
 using static System.Math;
 
-class sfuns{
+public class sfuns{
    public static double fgamma(double x){
    ///single precision gamma function (formula from Wikipedia)
       if(x<0)return PI/Sin(PI*x)/fgamma(1-x); // Euler's reflection formula
