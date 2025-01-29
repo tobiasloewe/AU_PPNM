@@ -1,8 +1,8 @@
-Out.txt : hello.exe              # Out.txt depends on hello.exe
-	mono hello.exe > Out.txt # run hello.exe, send output to Out.txt
+Out.txt : main.exe
+	mono main.exe > Out.txt
 
-hello.exe : hello.cs             # hello.exe depends on hello.cs
-	mcs hello.cs             # compile hello.cs into hello.exe
+main.exe : main.cs hello.dll
+	mcs -target:exe -reference:hello.dll -out:main.exe main.cs
 
-clean:                           # a phoney target, no dependencies
-	rm -f Out.txt hello.exe  # remove secondary files
+hello.dll : hello.cs
+	mcs -target:library -out:hello.dll hello.cs
