@@ -8,4 +8,11 @@ public class sfuns{
       double lnfgamma=x*Log(x+1/(12*x-1/x/10))-x+Log(2*PI/x)/2;
       return Exp(lnfgamma);
    }
+   public static double lngamma(double x){
+      if(x<=0)return double.NaN;
+      if(x<9)return lngamma(x+1) - Log(x);
+      double x1 = x-1;
+      double lnfgamma= x1 * Log(x1+1/(12*x1-1/10.0)) - x1 + Log(2*PI/x1/2);
+      return lnfgamma;
+   }
 }
