@@ -1,27 +1,37 @@
 using System;
 
-public static class epsilon{
-    public static int testMaxInt(){
-        int i=1;
-        while(i+1>i){
-            i++;
+public class epsilon
+{
+    // Find the largest integer before overflow
+    public static int testMaxInt()
+    {
+        int max = 1;
+        while (max > 0) // Stop when overflow makes it negative
+        {
+            max *= 2;
         }
-        return i;
+        return max - 1; // Last valid positive int
     }
-    public static double testMinDouble(){
-        double x = 1;
-        while((x+1)!=x){
-            x/=2;
+
+    // Compute machine epsilon for double
+    public static double testMinDouble()
+    {
+        double epsilon = 1.0;
+        while (1.0 + epsilon != 1.0)
+        {
+            epsilon /= 2.0;
         }
-        x*=2;
-        return x;
+        return epsilon * 2.0;
     }
-    public static float testMinFloat(){
-        float y=1F; 
-        while((float)(1F+y) != 1F){
-            y/=2F;
-        } 
-        y*=2F;
-        return y;
+
+    // Compute machine epsilon for float
+    public static float testMinFloat()
+    {
+        float epsilon = 1.0F;
+        while (1.0F + epsilon != 1.0F)
+        {
+            epsilon /= 2.0F;
+        }
+        return epsilon * 2.0F;
     }
 }
