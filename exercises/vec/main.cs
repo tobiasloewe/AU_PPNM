@@ -32,7 +32,7 @@ static int Main(){
 
 	double c=rnd.NextDouble();
 	t=new vec(u.x*c,u.y*c,u.z*c);
-	var tmp=u*c; // bug in mcs
+	var tmp=u*c;
 	tmp.print("u*c =");
 	t.print  ("t   =");
 	if(vec.approx(t,u*c))WriteLine("test 'operator*' passed\n");
@@ -41,6 +41,7 @@ static int Main(){
 	(u%v).print("u%v=");
 	d.print    ("d  =");
 	if( vec.approx(d, u%v) )WriteLine("test 'operator%' passed\n");
+    if( vec.approx(d, u.dot(v)))WriteLine("test '.dot()' passed\n");
 
 	return 0;
 	}
