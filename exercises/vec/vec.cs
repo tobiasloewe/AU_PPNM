@@ -29,9 +29,12 @@ public static vec operator+(vec u, vec v){
 	return new vec(u.x+v.x,u.y+v.y,u.z+v.z);
 	}
 
+// dot product via operator
 public static double operator%(vec u, vec v){
 	return u.x*v.x+u.y*v.y+u.z*v.z;
 	}
+
+// dot product via method
 public double dot(vec other) => this.x*other.x+this.y*other.y+this.z*other.z;
 public static double dot(vec v,vec w) => v.x*w.x+v.y*w.y+v.z*w.z;
 
@@ -58,4 +61,4 @@ public bool approx(vec other){
 
 public static bool approx(vec u, vec v) => u.approx(v);
 
-}//vec
+}
