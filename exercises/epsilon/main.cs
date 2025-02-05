@@ -1,3 +1,6 @@
+using System;
+using static System.Console;
+
 class main{
 static int Main(){
         int myMaxInt = epsilon.testMaxInt();
