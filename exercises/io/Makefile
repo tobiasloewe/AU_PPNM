@@ -4,7 +4,7 @@ MKLIB = mcs -out:$@ -target:library $(DLLS) $(CODE)
 MKEXE = mcs -out:$@ -target:exe $(DLLS) $(CODE) 
 
 Out.txt: main.exe
-	echo "1   2\t3\n4" | mono main.exe -numbers:1,2,3,4,5 1 -input:input.txt -output:output.txt> $@ -weirdNumbers 2>> $@
+	echo "1   2\t3\n4" | mono main.exe -numbers:1,2,3,4,5 -input:input.txt -output:output.txt -weirdNumbers 1> $@ 2>> $@
 
 main.exe: main.cs; $(MKEXE)
 
