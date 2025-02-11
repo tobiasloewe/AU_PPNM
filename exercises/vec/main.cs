@@ -39,8 +39,9 @@ static int Main(){
 
 	double d = u.x*v.x+u.y*v.y+u.z*v.z;
 	(u%v).print("u%v=");
+	(u.dot(v)).print("u.dot(v)=");
 	d.print    ("d  =");
-	if( vec.approx(d, u%v) )WriteLine("test 'operator%' passed\n");
+	if( vec.approx(d, u%v) )WriteLine("test 'operator%' passed");
     if( vec.approx(d, u.dot(v)))WriteLine("test '.dot()' passed\n");
 
 	return 0;
