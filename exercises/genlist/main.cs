@@ -18,6 +18,13 @@ static class main{
             foreach(var number in numbers)Write($"{number : 0.00e+00;-0.00e+00} ");
             WriteLine();
             }
+        WriteLine("now remove some");
+        list.remove(1);
+        for(int i=0;i<list.size;i++){
+            var numbers = list[i];
+            foreach(var number in numbers)Write($"{number : 0.00e+00;-0.00e+00} ");
+            WriteLine();
+            }
         return 0;
     }
 }

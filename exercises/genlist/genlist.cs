@@ -8,9 +8,9 @@ public class genlist<T>{
 		System.Array.Copy(data,newdata,size);
 		newdata[size]=item;
 		data=newdata;
+	}
 	public void remove(int i){
-		T[] newdata = new T[size - 1]
-		System.Array.Copy(data,newdata,size);
+		T[] newdata = new T[size - 1];
 		for (int j = 0; j<size-1;j++){
 			if (j<i){
 				newdata[j] = data[j];
@@ -20,6 +20,5 @@ public class genlist<T>{
 			}
 		}
 		data = newdata;
-	}
 	}
 }
