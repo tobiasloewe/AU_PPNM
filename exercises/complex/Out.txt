@@ -1,0 +1,18 @@
+√-1 approx i: False
+Computed: 6.12e-17+-1i, Expected: 0+1i
+ln(i) approx iπ/2: True
+Computed: 0+1.57i, Expected: 0+1.57i
+√i approx (1/√2 + i/√2): True
+Computed: 0.707+0.707i, Expected: 0.707+0.707i
+e^i approx cos(1) + i sin(1): True
+Computed: 0.54+0.841i, Expected: 0.54+0.841i
+e^(iπ) approx -1: True
+Computed: -1+1.22e-16i, Expected: -1+0i
+i^i approx e^(-π/2): True
+Computed: 0.208+0i, Expected: 0.208+0i
+sin(iπ) approx i sinh(π): True
+Computed: 0+11.5i, Expected: 0+11.5i
+sinh(i) approx i sin(1): True
+Computed: 0+0.841i, Expected: 0+0.841i
+cosh(i) approx cos(1): True
+Computed: 0.54+0i, Expected: 0.54+0i

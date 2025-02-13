@@ -48,5 +48,8 @@ public static partial class cmath{ /* complex math */
 		{Console.Write(s);z.print();}
 	public static void printf(this complex z,string s)
 		{Console.WriteLine(s,z.Re,z.Im);}
+	// hyperbolics
+	public static complex sinh(complex z) => (exp(z) - exp(-z)) / 2;
+	public static complex cosh(complex z) => (exp(z) + exp(-z)) / 2;
 
 }
