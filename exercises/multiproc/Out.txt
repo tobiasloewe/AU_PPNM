@@ -1,16 +1,27 @@
 sum=18.9978964138526
-real 0.60
-user 0.43
-sys 0.03
+real 0.50
+user 0.37
+sys 0.04
 sum=18.9978964138526
-real 0.46
+real 0.54
 user 0.42
 sys 0.00
 sum=18.9978964138526
-real 0.45
-user 0.38
+real 0.51
+user 0.41
 sys 0.00
 sum=18.9978964138526
-real 0.47
-user 0.43
+real 0.45
+user 0.36
 sys 0.00
+this was mode 0
+sum=18.9978964138526
+real 0.42
+user 0.29
+sys 0.04
+this was mode 1
+sum=18.9978964138526
+real 0.44
+user 0.39
+sys 0.00
+this was mode 2

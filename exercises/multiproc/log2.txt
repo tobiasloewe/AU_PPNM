@@ -1,0 +1,1 @@
+nthreads=1 nterms=100000000
