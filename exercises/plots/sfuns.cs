@@ -1,4 +1,5 @@
 using static System.Math;
+using System;
 
 public class sfuns{
    public static double fgamma(double x){
@@ -15,6 +16,13 @@ public class sfuns{
       double lnfgamma= x1 * Log(x1+1/(12*x1-1/10.0)) - x1 + Log(2*PI/x1/2);
       return lnfgamma;
    }
+
+   public static double lngamma2(double x){
+      if(x<=0) throw new ArgumentException("lngamma: x<=0");
+      if(x<9) return lngamma(x+1)-Log(x);
+      return x*Log(x+1/(12*x-1/x/10))-x+Log(2*PI/x)/2;
+   }
+	
    public static double erf(double x){
    /// single precision error function (Abramowitz and Stegun, from Wikipedia)
       if(x<0) return -erf(-x);
