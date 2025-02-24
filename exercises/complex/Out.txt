@@ -1,5 +1,7 @@
 √-1 approx i: False
 Computed: 6.12e-17+-1i, Expected: 0+1i
+arg of -1 is 3.14+0i, exp is 6.12e-17+1i
+COMMENT: somehow by default sqrt uses other solution
 ln(i) approx iπ/2: True
 Computed: 0+1.57i, Expected: 0+1.57i
 √i approx (1/√2 + i/√2): True
