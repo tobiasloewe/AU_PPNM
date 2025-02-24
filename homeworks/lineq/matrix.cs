@@ -239,4 +239,9 @@ public bool approx(matrix B,double acc=1e-6, double eps=1e-6){
 	return true;
 }
 
+public int[] size(){
+	int[] dims = new int[2] {size1,size2};
+	return dims;
+}
+
 }//matrix

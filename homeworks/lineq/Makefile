@@ -10,11 +10,11 @@ all: out.txt; cat $<
 out.txt: main.exe
 	$(RUN) $< > $@
 
-main.exe: main.cs matrix.dll
-	$(CSC) -reference:$(word 2,$^) $<
+main.exe: main.cs matrix.dll qr.dll; $(MKEXE)
 
-matrix.dll : vector.cs matrix.cs
-	$(CSC) -target:library -out:$@ $^
+qr.dll: qr.cs matrix.dll; $(MKLIB)
+
+matrix.dll : vector.cs matrix.cs; $(MKLIB)
 
 clean:
 	$(RM) *.dll *.exe [Oo]ut*
