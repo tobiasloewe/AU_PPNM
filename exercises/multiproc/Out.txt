@@ -1,27 +1,14 @@
-sum=18.9978964138526
-real 0.46
-user 0.38
-sys 0.00
-sum=18.9978964138526
-real 0.46
-user 0.39
-sys 0.01
-sum=18.9978964138526
-real 0.47
-user 0.40
-sys 0.01
-sum=18.9978964138526
-real 0.46
-user 0.41
-sys 0.00
-this was mode 0
-sum=18.9978964138526
-real 0.43
-user 0.37
-sys 0.00
+1 1.92 1.97
+2 2.03 2.07
+3 2.00 1.98
+4 1.98 1.95
+5 1.95 1.90
+6 1.97 1.95
+7 1.97 1.93
+8 1.97 1.93
+
+ this was manual threading
+ 2.09 2.06
 this was mode 1
-sum=18.9978964138526
-real 0.44
-user 0.38
-sys 0.00
+ 2.07 2.01
 this was mode 2
