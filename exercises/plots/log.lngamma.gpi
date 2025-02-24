@@ -1,0 +1,10 @@
+ \
+	set terminal svg; \
+	set output "plot.lngamma.svg"; \
+	set key bottom ;\
+	set xlabel "x" ;\
+	set ylabel "log(Î“(x))" ;\
+	plot  \
+		"data.txt" index 2 with lines title "log(gamma(x))" \
+		,"lngamma.data" with points title "reference" \
+
