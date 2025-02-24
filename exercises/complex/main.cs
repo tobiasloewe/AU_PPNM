@@ -6,10 +6,10 @@ static int Main(){
     complex z1 = cmath.sqrt(-complex.One);
     complex expected1 = complex.I;
 
-    WriteLine($"√-1 approx i: {expected1.approx(z1)}");
+    WriteLine($"√-1 approx i: {expected1.approx(z1)||expected1.approx(-z1)}");
     WriteLine($"Computed: {z1}, Expected: {expected1}");
 
-    complex ztest = cmath.arg(cmath.arg(-complex.One));
+    complex ztest = cmath.arg(-complex.One);
     complex ztest2 = cmath.exp(complex.I*ztest/2);
     WriteLine($"arg of -1 is {ztest}, exp is {ztest2}");
     WriteLine($"COMMENT: somehow by default sqrt uses other solution");
