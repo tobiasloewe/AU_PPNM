@@ -27,7 +27,7 @@ public class genlist<T>{
 public class genlistbetter<T>{
 	public T[] data;
 	public int size=0,capacity=8;
-	public genlist(){ data = new T[capacity]; }
+	public genlistbetter(){ data = new T[capacity]; }
 	public void add(T item){ /* add item to list */
 		if(size==capacity){
 			T[] newdata = new T[capacity*=2];
