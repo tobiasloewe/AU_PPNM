@@ -2,21 +2,35 @@ using System;
 using static System.Math;
 
 public class QR{
-    public readonly matrix Q;
-    public readonly matrix R;
-    public QR(matrix A){
+    public matrix Q { get; private set; }
+    public matrix R { get; private set; }
+    public vector b { get; private set; }
+
+
+    public QR(matrix A, vector c){
         int m = A.size2;
         Q=A.copy();
+        b=c.copy();
         R=new matrix(m,m);
         for(int i=0;i<m; i++){
             R[i,i]=Q[i].norm(); /* Q[ i ] points to the i−th columb */ 
             Q[i]/=R[i,i]; 
             for(int j=i+1;j<m; j++){
-                R[i,j]=Q[i].dot(Q[j]); 
+                R[i,j]=Q[i].dot(Q[j]);
                 Q[j]-=Q[i]*R[i,j];
-            } 
+            }
         }
     }
+    public void solve(){
+        System.Console.WriteLine($"{b.size} vs {Q.size1} x{Q.size2}");
+        b = Q.T*b;        for(int i=this.b.size -1; i>=0; i--){
+            double sum=0;
+            for(int k=i+1; k<this.b.size; k++) sum+=R[i,k]*this.b[k];
+            b[i]=(b[i]-sum)/R[i,i];
+        }
+        b = Q*b;
+    }
+
 
 
 

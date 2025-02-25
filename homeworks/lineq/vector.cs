@@ -41,6 +41,14 @@ public void print
 	file.Write("\n");
 	}
 
+public void cprint
+(string s="",string format="{0,10:g3} "){
+	WriteLine(s);
+	for(int i=0;i<size;i++) Write(format,this[i]);
+	Write("\n");
+	}
+
+
 public void fprint
 (TextWriter file,string s="",string format="{0,10:g3} "){
 	file.Write(s);
