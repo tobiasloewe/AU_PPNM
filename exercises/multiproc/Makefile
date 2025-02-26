@@ -5,7 +5,7 @@ MKEXE = mcs -out:$@ -target:exe $(DLLS) $(CODE)
 #TIME = time --portability --append --output $@
 TIME = time --format "$$nthreads %e %U" --append --output $@
 
-MAX_THREADS = 32
+MAX_THREADS = 64
 N=5e8
 
 nthreadlist = $(shell seq 1 $(MAX_THREADS))
