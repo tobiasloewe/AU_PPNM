@@ -1,10 +1,21 @@
 using static System.Console;
 
 class main{
-static void Main(){
-	int n = 6;
-	int m = 3;
-	var rnd = new System.Random(1); /* or any other seed */
+static void Main(string[] args){
+	int n=2;
+	int m=2;
+	int argc=args.Length;
+	for (int i = 0; i < args.Length; i++) {
+        if (args[i] == "-dims" && i + 1 < args.Length) {
+            var values = args[i + 1].Split(',');
+            if (values.Length == 2){
+                n=int.Parse(values[0]);
+				m=int.Parse(values[1]);
+            }
+        }
+    }
+	
+	var rnd = new System.Random(1); 
 	var A = new matrix(n,m);
 	var b = new vector(n);
 

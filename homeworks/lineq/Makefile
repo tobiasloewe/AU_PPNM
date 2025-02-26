@@ -8,7 +8,7 @@ RUN = mono
 all: out.txt; cat $<
 
 out.txt: main.exe
-	$(RUN) $< > $@
+	$(RUN) $< -dims 5,5 > $@
 
 main.exe: main.cs matrix.dll qr.dll; $(MKEXE)
 
