@@ -23,13 +23,30 @@ public class QR{
     }
     public void solve(){
         System.Console.WriteLine($"{b.size} vs {Q.size1} x{Q.size2}");
-        b = Q.T*b;        for(int i=this.b.size -1; i>=0; i--){
+        b = Q.T*b;
+        for(int i=this.b.size -1; i>=0; i--){
             double sum=0;
             for(int k=i+1; k<this.b.size; k++) sum+=R[i,k]*this.b[k];
             b[i]=(b[i]-sum)/R[i,i];
         }
-        b = Q*b;
     }
+    public vector getSolve(){
+        vector Qtb = Q.T * b;
+
+        int n = R.size1;
+        vector x = new vector(n);
+
+        for (int i = n - 1; i >= 0; i--){
+            double sum = 0;
+            for (int j = i + 1; j < n; j++){
+                sum += R[i, j] * x[j];
+            }
+            x[i] = (Qtb[i] - sum) / R[i, i];
+        }
+
+        return x;
+    }
+
 
 
 
