@@ -20,7 +20,7 @@ public static int Main(string[] argv){
 		string arg = argv[i];
 		if(arg=="-threads" && i+1<argc) nthreads=int.Parse(argv[i+1]);
 		if(arg=="-terms" && i+1<argc) nterms=(long)double.Parse(argv[i+1]);
-        if(arg=="-mode" && i+1<argc) mode= 0;
+        	if(arg=="-mode" && i+1<argc) mode= 0;
 	}
     if (mode==0){
         Error.WriteLine($"nthreads={nthreads} nterms={nterms}");
@@ -38,18 +38,18 @@ public static int Main(string[] argv){
         foreach(var thread in threads) thread.Join();
         double sum=0;
         foreach(var d in data) sum+=d.sum;
-        WriteLine($"sum={sum}");
+        //WriteLine($"sum={sum}");
     }
     else if(mode == 1){
         double sum=0;
         System.Threading.Tasks.Parallel.For( 1, nterms+1, (long i) => sum+=1.0/i );
-        WriteLine($"sum={sum} , with mode 1");
+        //WriteLine($"sum={sum} , with mode 1");
     }
     else if (mode == 2){        
         var sum = new System.Threading.ThreadLocal<double>( ()=>0, trackAllValues:true);
         System.Threading.Tasks.Parallel.For( 1, nterms+1, (long i)=>sum.Value+=1.0/i );
         double totalsum=sum.Values.Sum();
-        WriteLine($"sum={sum} , with mode 2");
+        //WriteLine($"sum={sum} , with mode 2");
     }
 return 0;
 }//Main
