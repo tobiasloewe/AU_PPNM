@@ -2,7 +2,7 @@ using static System.Console;
 
 class main{
 static void Main(){
-	int n = 10;
+	int n = 6;
 	int m = 3;
 	var rnd = new System.Random(1); /* or any other seed */
 	var A = new matrix(n,m);
@@ -35,13 +35,16 @@ static void Main(){
 	WriteLine($"Q*R= A? {A.approx(isThisA)}\n");
 
 	// solve Lineq
-	var isThisX = solver.getSolve();
-	var isThisB = A*isThisX;
-	isThisB.print();
-	WriteLine($"equal to B {b.approx(isThisB)}");
-	b.print();
+		//var isThisX = solver.getSolve();
+		//var isThisB = A*isThisX;
+		//isThisB.print();
+		//WriteLine($"equal to B {b.approx(isThisB)}");
+	b.print("This is b");
 
 	solver.solve();
-	(solver.b).print();
+	//(solver.b).print("this is solved x");
+	var isThisB = (A*solver.b);
+	isThisB.print("Is this B?");
+	WriteLine($"is it? {b.approx(isThisB)}");
 }
 }

@@ -22,14 +22,14 @@ public class QR{
         }
     }
     public void solve(){
-        System.Console.WriteLine($"{b.size} vs {Q.size1} x{Q.size2}");
-        b = Q.T*b;
+        this.b = Q.T*this.b;
         for(int i=this.b.size -1; i>=0; i--){
             double sum=0;
-            for(int k=i+1; k<this.b.size; k++) sum+=R[i,k]*this.b[k];
-            b[i]=(b[i]-sum)/R[i,i];
+            for(int k=i+1; k<this.b.size; k++) sum+=this.R[i,k]*this.b[k];
+            this.b[i]=(this.b[i]-sum)/this.R[i,i];
         }
     }
+
     public vector getSolve(){
         vector Qtb = Q.T * b;
 
