@@ -35,10 +35,6 @@ static void Main(){
 	WriteLine($"Q*R= A? {A.approx(isThisA)}\n");
 
 	// solve Lineq
-		//var isThisX = solver.getSolve();
-		//var isThisB = A*isThisX;
-		//isThisB.print();
-		//WriteLine($"equal to B {b.approx(isThisB)}");
 	b.print("This is b");
 
 	solver.solve();
