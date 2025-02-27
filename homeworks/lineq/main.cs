@@ -49,9 +49,9 @@ static void Main(string[] args){
 	b.print("This is b");
 
 	solver.solve();
-	//(solver.b).print("this is solved x");
-	var isThisB = (A*solver.b);
-	isThisB.print("Is this B?");
-	WriteLine($"is it? {b.approx(isThisB)}");
+	var isThisB1 = (A*solver.b);
+	var isThisB2 = (isThisA*solver.b);
+	isThisB1.print($"A*x=b? {b.approx(isThisB1)}");
+	isThisB2.print($"Q*R*x=b? {b.approx(isThisB2)}");
 }
 }
