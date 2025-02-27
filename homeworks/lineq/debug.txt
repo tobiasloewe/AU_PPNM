@@ -1,0 +1,10 @@
+this is R (should be upper triangular)
+     0.529      0.733 
+         0      0.265 
+Q.T*Q = Id? True
+
+Q*R= A? True
+
+This is b     0.658      0.433 
+A*x=b? True     0.658      0.433 
+Q*R*x=b? True     0.658      0.433 

@@ -4,14 +4,16 @@ MKLIB = mcs -out:$@ -target:library $(DLLS) $(CODE)
 MKEXE = mcs -out:$@ -target:exe $(DLLS) $(CODE) 
 CSC = mcs
 RUN = mono
+TIME = time --format "$$nsize %e %U" --append --output $@
+MAX_SIZE = 1000
 
-#nthreadlist = $(shell seq 1 $(MAX_THREADS))
-#@for nthreads in $(nthreadlist); do $(TIME) mono $< -terms $(N) -threads $$nthreads >>$@; done
+nsizelist = $(shell seq 10 100 $(MAX_SIZE))
+#$(RUN) $< -dims 5,5 > $@
 
-all: out.txt; cat $<
+all: out.txt Makefile; cat $<
 
 out.txt: main.exe
-	$(RUN) $< -dims 5,5 > $@
+	@for nsize in $(nsizelist); do $(TIME) mono $< -dims $$nsize,$$nsize -verbose 0 >>$@; done
 
 main.exe: main.cs matrix.dll qr.dll; $(MKEXE)
 
