@@ -5,6 +5,9 @@ MKEXE = mcs -out:$@ -target:exe $(DLLS) $(CODE)
 CSC = mcs
 RUN = mono
 
+#nthreadlist = $(shell seq 1 $(MAX_THREADS))
+#@for nthreads in $(nthreadlist); do $(TIME) mono $< -terms $(N) -threads $$nthreads >>$@; done
+
 all: out.txt; cat $<
 
 out.txt: main.exe
