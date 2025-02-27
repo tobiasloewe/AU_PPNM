@@ -59,10 +59,10 @@ static void Main(string[] args){
 			isThisB2.print($"Q*R*x= ");
 		}
 	}
-	if (isThisId.approx(matrix.id(m)) && A.approx(isThisA) && b.approx(isThisB1) && b.approx(isThisB2)){
+	if (isThisId.approx(matrix.id(m)) && A.approx(isThisA) && b.approx(isThisB1) && b.approx(isThisB2) && verbose == 1){
 		WriteLine(0);
 	}
-	else{
+	else if (verbose == 1){
 		WriteLine(1);
 	}
 
