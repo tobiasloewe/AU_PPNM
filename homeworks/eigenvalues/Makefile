@@ -12,13 +12,13 @@ RUN = mono
 all: out.txt Makefile; cat $<
 
 out.txt: main.exe
-	mono $<  >>$@;
+	mono $<  >$@;
 
-main.exe: main.cs matrix.dll qr.dll; $(MKEXE)	
+main.exe: main.cs matrix.dll jacobi.dll; $(MKEXE)	
 
-qr.dll: qr.cs matrix.dll; $(MKLIB)
+jacobi.dll: jacobi.cs matrix.dll; $(MKLIB)
 
 matrix.dll : vector.cs matrix.cs; $(MKLIB)
 
 clean:
-	$(RM) *.dll *.exe [Oo]ut* *.txt
+	$(RM) *.dll *.exe [Oo]ut*
