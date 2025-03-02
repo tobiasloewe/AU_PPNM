@@ -44,6 +44,9 @@ public static class Jacobi{
                     }
             }
         }while(changed);
+        for (int i = 0; i<n; i++){
+            w[i] = A[i,i];
+        }
 
         return (w,V);
     }

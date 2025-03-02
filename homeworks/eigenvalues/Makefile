@@ -12,7 +12,7 @@ RUN = mono
 all: out.txt Makefile; cat $<
 
 out.txt: main.exe
-	mono $<  >$@;
+	mono $< -dim 5 >$@;
 
 main.exe: main.cs matrix.dll jacobi.dll; $(MKEXE)	
 

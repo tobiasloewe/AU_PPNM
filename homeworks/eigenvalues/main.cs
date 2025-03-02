@@ -28,5 +28,13 @@ static void Main(string[] args){
     }
 
     A.print();
+    (vector w,matrix V) = Jacobi.cyclic(A);
+
+    w.print("W is ");
+    //V.print();
+    matrix D = new matrix(w);
+    matrix isThisA = V*D*(V.T);
+    isThisA.print();
+    D.print();
 }
 }//main
