@@ -12,7 +12,8 @@ RUN = mono
 all: out.txt Makefile; cat $<
 
 out.txt: main.exe
-	mono $< -dim 5 >$@;
+	mono $< -dim 10 -mode test >$@;
+	mono $< -mode Hswave -rmax 30.0 -dr 1.0 >>$@;
 
 main.exe: main.cs matrix.dll jacobi.dll; $(MKEXE)	
 
