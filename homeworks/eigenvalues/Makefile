@@ -9,17 +9,17 @@ RUN = mono
 
 #nsizelist = $(shell seq 100 100 $(MAX_SIZE))
 
-all: out.txt Makefile; cat $<
+all: out.txt; cat $<
 
-out.txt: main.exe
+out.txt: main.exe Makefile
 	mono $< -dim 10 -mode test >$@;
-	mono $< -mode Hswave -rmax 30.0 -dr 1.0 >>$@;
+	mono $< -mode Hswave -rmax 10.0 -dr 0.05 >>$@;
 
 main.exe: main.cs matrix.dll jacobi.dll; $(MKEXE)	
 
 jacobi.dll: jacobi.cs matrix.dll; $(MKLIB)
 
-matrix.dll : vector.cs matrix.cs; $(MKLIB)
+matrix.dll : ../matrix/vector.cs ../matrix/matrix.cs; $(MKLIB)
 
 clean:
 	$(RM) *.dll *.exe [Oo]ut*

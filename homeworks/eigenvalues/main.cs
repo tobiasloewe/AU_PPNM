@@ -25,6 +25,7 @@ static void Main(string[] args){
             dr = double.Parse(args[i+1]);
         }
     }
+System.Console.Error.WriteLine($"rmax={rmax} dr={dr}");
     if (mode == "test"){
         // gen symmetric  matrix
         var rnd = new System.Random(1); 
@@ -61,8 +62,7 @@ static void Main(string[] args){
         matrix D = new matrix(eps);
         matrix isThisH = (V*D*V.T);
         WriteLine($"Jacobi worked on H? {H.approx(isThisH)}");
-        H.print();
-        D.print();
+        WriteLine($"lowest energy is : {eps[0]}");
     }
 }
 }//main
