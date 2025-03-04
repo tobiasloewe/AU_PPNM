@@ -5,17 +5,50 @@ MKEXE = mcs -out:$@ -target:exe $(DLLS) $(CODE)
 CSC = mcs
 RUN = mono
 #TIME = time --format "$$nsize %e %U" --append --output $@
-#MAX_SIZE = 2000
+MAX_R = 20
+MAX_DR = 1
 
-#nsizelist = $(shell seq 100 100 $(MAX_SIZE))
+rmaxlist = $(shell seq 3 0.25 $(MAX_R))
+drlist = $(shell seq 0.01 0.02 $(MAX_DR))
 
-all: out.txt; cat $<
+all: out.txt plot.conv1.svg plot.conv2.svg; cat $<
 
-out.txt: main.exe Makefile
-	mono $< -dim 10 -mode test >$@;
-	mono $< -mode Hswave -rmax 10.0 -dr 0.05 >>$@;
+out.txt: runtests.exe Makefile
+	mono $< -dim 10 >> $@;
 
-main.exe: main.cs matrix.dll jacobi.dll; $(MKEXE)	
+convdata.txt: hatom.exe Makefile
+#	rm convdata.txt
+	@for rmaxv in $(rmaxlist); do echo -n "$$rmaxv " >>$@; mono $< -rmax $$rmaxv -dr 0.05 >>$@; done
+	@echo "" >>$@; 
+	@echo "" >>$@;
+	@for drv in $(drlist); do echo -n "$$drv " >>$@; mono $< -rmax 10 -dr $$drv >>$@; done
+
+plot.conv1.svg : convdata.txt Makefile
+	echo ' \
+		set terminal svg; \
+		set output "$@"; \
+		set key bottom ;\
+		set xlabel "rmax" ;\
+		set ylabel "lowest energy" ;\
+		plot  \
+			"$<" index 0 with lines title "Jacobi" \
+	' | tee log.conv1.gpi | gnuplot
+
+plot.conv2.svg : convdata.txt Makefile
+	echo ' \
+		set terminal svg; \
+		set output "$@"; \
+		set key top ;\
+		set xlabel "dr" ;\
+		set ylabel "lowest energy" ;\
+		set xrange [*:*] reverse ;\
+		plot  \
+			"$<" index 1 with lines title "Jacobi" \
+	' | tee log.conv2.gpi | gnuplot
+
+hatom.exe: hatom.cs matrix.dll jacobi.dll; $(MKEXE)	
+
+runtests.exe: runtests.cs matrix.dll jacobi.dll; $(MKEXE)	
 
 jacobi.dll: jacobi.cs matrix.dll; $(MKLIB)
 
@@ -23,3 +56,6 @@ matrix.dll : ../matrix/vector.cs ../matrix/matrix.cs; $(MKLIB)
 
 clean:
 	$(RM) *.dll *.exe [Oo]ut*
+
+cleanouts:
+	$(RM) *.txt *.svg *.gpi
