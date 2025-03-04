@@ -6,5 +6,5 @@
 	set ylabel "lowest energy" ;\
 	set xrange [*:*] reverse ;\
 	plot  \
-		"convdata.txt" index 1 with lines title "Jacobi" \
+		"convdata.txt" index 1 using 2:3 with lines title "H atom EVD with cyclic Jacobi" \
 

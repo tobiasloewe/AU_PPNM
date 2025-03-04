@@ -1,0 +1,10 @@
+ \
+	set terminal svg; \
+	set output "plot.wavefunc.svg"; \
+	set key top ;\
+	set grid;\
+	set xlabel "x" ;\
+	set ylabel "Psi" ;\
+	plot  \
+		"wavefunc.txt" index 0 with lines title "H atom S orbital" \
+
