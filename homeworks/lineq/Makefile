@@ -22,14 +22,18 @@ plot.comp.svg : timingdata.txt Makefile
 			"$<" index 0 with lines title "GS QR and Backsub" \
 	' | tee log.comp.gpi | gnuplot
 
-timingdata.txt: main.exe
-	@for nsize in $(nsizelist); do $(TIME) mono $< -dims $$nsize,$$nsize -verbose 0 >>$@; done
+timingdata.txt: runqr.exe
+	@for nsize in $(nsizelist); do echo "($$nsize)"; $(TIME) mono $< -dims $$nsize,$$nsize >>$@; done
 
-out.txt: main.exe
-	mono $< -dims 20,5 -verbose 3 >>$@;
-	mono $< -dims 10,10 -verbose 3 -mode all >>$@
+out.txt: testqr.exe testlinsolve.exe
+	mono $< -dims 20,5 > $@;
+	mono testlinsolve.exe -dims 7,7 >> $@;
 
-main.exe: main.cs matrix.dll qr.dll; $(MKEXE)
+testqr.exe: testqr.cs matrix.dll qr.dll; $(MKEXE)
+
+runqr.exe: runqr.cs matrix.dll qr.dll; $(MKEXE)
+
+testlinsolve.exe: testlinsolve.cs matrix.dll qr.dll; $(MKEXE)
 
 qr.dll: qr.cs matrix.dll; $(MKLIB)
 

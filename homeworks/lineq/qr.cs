@@ -30,22 +30,22 @@ public class QR{
         }
     }
 
-    public static matrix inverse(matrix A){
-        int n = A.size1; 
-        matrix A_inv = new matrix(n, n);
-        for (int i = 0; i < n; i++) {
-            vector e_i = new vector(n);
+    public static matrix inverse(matrix Aext){
+        int An = Aext.size1; 
+        matrix A_inv = new matrix(An, An);
+        for (int i = 0; i < An; i++) {
+            vector e_i = new vector(An);
             e_i[i] = 1;
-            var temp = decomp(A);
-            vector x = solve(temp[0], temp[1], e_i);
-            for (int j = 0; j < n; j++) {
+            (matrix qm, matrix rm) = decomp(Aext);
+            vector x = solve(qm, rm, e_i);
+            for (int j = 0; j < An; j++) {
                 A_inv[j, i] = x[j];
             }
         }
         return A_inv;
     }
 
-    public static matrix[] decomp(matrix Aext){
+    public static (matrix, matrix) decomp(matrix Aext){
         int m = Aext.size2;
         matrix Qext = Aext.copy();
         matrix Rext =new matrix(m,m);
@@ -57,11 +57,10 @@ public class QR{
                 Qext[j]-=Qext[i]*Rext[i,j];
             }
         }
-        matrix[] results = new matrix[2] {Rext, Qext}; 
-        return results;
+        return (Qext, Rext);
     }
 
-    public static vector solve(matrix Rext, matrix Qext, vector bext){
+    public static vector solve(matrix Qext, matrix Rext, vector bext){
         bext = Qext.T*bext;
         for(int i=bext.size -1; i>=0; i--){
             double sum=0;
@@ -71,7 +70,10 @@ public class QR{
         return bext;
     }
 
-
+    public static vector solve (matrix Aex, vector bex){
+        (matrix Qex, matrix Rex) = decomp(Aex);
+        return solve(Qex, Rex, bex);
+    }
 
 
 }
