@@ -1,0 +1,9 @@
+ \
+	set terminal svg; \
+	set output "plot.comp.svg"; \
+	set key bottom ;\
+	set xlabel "N" ;\
+	set ylabel "O(N)" ;\
+	plot  \
+		"timingdata.txt" index 0 with lines title "GS QR and Backsub" \
+
