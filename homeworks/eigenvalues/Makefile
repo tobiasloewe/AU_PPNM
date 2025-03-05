@@ -32,10 +32,11 @@ plot.wavefunc.svg : wavefunc.txt Makefile
 		set output "$@"; \
 		set key top ;\
 		set grid;\
-		set xlabel "x" ;\
+		set xlabel "r [Bohr]" ;\
 		set ylabel "Psi" ;\
 		plot  \
-			"$<" index 0 with lines title "H atom S orbital" \
+			"$<" index 0 using 1:2 with lines title "R_{1,0}(r)", \
+			"$<" index 0 using 1:3 with lines title "\|R_{1,0}(r)|\|^2" \
 	' | tee log.wavefunc.gpi | gnuplot
 
 plot.conv1.svg : convdata.txt Makefile

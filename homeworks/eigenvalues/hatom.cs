@@ -38,14 +38,15 @@ static void Main(string[] args){
     for(int i=0;i<npoints;i++)H[i,i]+=-1/r[i];
 
     (vector eps, matrix V) = Jacobi.cyclic(H);
+    vector psi_ground = new vector(V.size1);
+
     if (returnfunc >= 0){
-        vector outv = V.T[V.size1 -1];
-        for (int i=0; i<outv.size; i++){
-            WriteLine($"{i*dr} {Abs(outv[i])}");
-        }
+        for (int i = 0; i < V.size1; i++) {
+        WriteLine($"{i*dr} {Abs(V[i, returnfunc])} {Abs(V[i, returnfunc])*Abs(V[i, returnfunc])}");
     }
-    //matrix isThisH = (V*D*V.T);
-    //WriteLine($"{H.approx(isThisH, 1e-5, 1e-5)}");
-    WriteLine($"{rmax} {dr} {eps[0]}");
+    }
+    else {
+        WriteLine($"{rmax} {dr} {eps[0]}");
+    }
 }
 }//main
