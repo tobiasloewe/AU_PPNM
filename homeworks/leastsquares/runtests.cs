@@ -33,10 +33,17 @@ class Testing{
 
     (vector par, matrix cov) = Fit.ls(fs, fitdata[0],fitdata[1],fitdata[2]);
     var fittedFunc = Fit.CreateFittedFunction(fs,par);
-    
-    for (int i = 0; i<fitdata[0].Length; i++){
-        WriteLine($"{fitdata[0][i]} {fitdata[1][i]} {fitdata[2][i]} {fittedFunc(fitdata[0][i])}}");
+    Write("# ");
+    foreach (string label in labels){
+        Write($"\"{label}\" ");
     }
+    Write($"\"{"Test"}\" ");
+    
+    Write("\n");
+    for (int i = 0; i<fitdata[0].Length; i++){
+        WriteLine($"{fitdata[0][i]} {fitdata[1][i]} {fitdata[2][i]} {fittedFunc(fitdata[0][i])}");
+    }
+    
 
 }
 }

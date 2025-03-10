@@ -8,6 +8,17 @@ RUN = mono
 
 all: out.txt; cat $<
 
+plot.fit.svg : out.txt Makefile
+		echo ' \
+			set terminal svg; \
+			set output "$@"; \
+			set key top ;\
+			set grid; \
+			plot  \
+				"$<" index 0 using 1:2:3 with yerrorlines title "Rutherford Data", \
+				"$<" index 0 using 1:4 with lines title "LS Fit" \
+		' | gnuplot
+
 out.txt: runtests.exe
 	mono $< -fitdata decaydata.txt > $@;
 
