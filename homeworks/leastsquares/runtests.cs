@@ -1,41 +1,41 @@
 using System;
 using static System.Console;
+using System.IO;
+using System.Linq;
 
 class Testing{
     static void Main(string[] args){
     // init vars
-	int n=2; int m=2;
+    string[] labels = null;
+    double[][] fitdata = null;
+
     // IO
 	for (int i = 0; i < args.Length; i++) {
-        if (args[i] == "-dim" && i + 1 < args.Length){
-            var values = args[i + 1].Split(',');
-            if (values.Length == 2){
-                n=int.Parse(values[0]);
-				m=int.Parse(values[1]);
+        if (args[i] == "-fitdata" && i + 1 < args.Length){
+            string filename = args[i+1];
+            string[] lines = File.ReadAllLines(filename);
+            labels = new string[lines.Length];
+            fitdata = new double[lines.Length][];
+
+            for (int j = 0; j < lines.Length; j++) {
+                string[] parts = lines[j].Split(':');
+                if (parts.Length == 2) {
+                    labels[j] = parts[0].Trim();
+                    fitdata[j] = parts[1]
+                        .Split(',')
+                        .Select(s => double.Parse(s.Trim()))
+                        .ToArray();
+                }
             }
         }
     }
-    var rnd = new System.Random(1); 
+    var fs = new Func<double,double>[] { z => 1.0, z => z, z => z*z }; 
+
+    (vector par, matrix cov) = Fit.ls(fs, fitdata[0],fitdata[1],fitdata[2]);
+    var fittedFunc = Fit.CreateFittedFunction(fs,par);
     
-    var Atall = new matrix(n,m);
-    var Awide = new matrix(m,n);
-    var Asq = new matrix(n,n);
-    
-    
-    for (int i=0; i<n; i++){
-        for (int j=0; j<m; j++){
-            Atall.set(i,j,rnd.NextDouble());
-        }
-    }
-    for (int i=0; i<m; i++){
-        for (int j=0; j<n; j++){
-            Awide.set(i,j,rnd.NextDouble());
-        }
-    }
-    for (int i = 0; i<n; i++){
-        for (int j=0; j<n; j++){
-            Asq[i][j] = rnd.NextDouble();
-        }
+    for (int i = 0; i<fitdata[0].Length; i++){
+        WriteLine($"{fitdata[0][i]} {fitdata[1][i]} {fitdata[2][i]} {fittedFunc(fitdata[0][i])}}");
     }
 
 }

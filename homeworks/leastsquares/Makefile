@@ -9,11 +9,13 @@ RUN = mono
 all: out.txt; cat $<
 
 out.txt: runtests.exe
-	mono $< -dim 6,3 > $@;
+	mono $< -fitdata decaydata.txt > $@;
 
-runtests.exe: runtests.cs matrix.dll jacobi.dll qr.dll; $(MKEXE)
+runtests.exe: runtests.cs matrix.dll jacobi.dll qr.dll fit.dll; $(MKEXE)
 
 jacobi.dll: jacobi.cs matrix.dll; $(MKLIB)
+
+fit.dll: fit.cs qr.dll matrix.dll; $(MKLIB)
 
 qr.dll: qr.cs matrix.dll; $(MKLIB)
 
