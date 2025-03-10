@@ -9,7 +9,7 @@ RUN = mono
 all: out.txt; cat $<
 
 out.txt: runtests.exe
-	mono $< -dim 5,5 > $@;
+	mono $< -dim 6,3 > $@;
 
 runtests.exe: runtests.cs matrix.dll jacobi.dll qr.dll; $(MKEXE)
 

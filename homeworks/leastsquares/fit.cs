@@ -1,5 +1,5 @@
-public class LeastSquares{
-    public static (vector ,matrix) lsfit (Func<double,double>[] fs , vector x, vector y, vector dy){
+public class Fit{
+    public static (vector ,matrix) ls (Func<double,double>[] fs , vector x, vector y, vector dy){
         int n = x.size, m=fs .Length; 
         var A = new matrix(n,m); 
         var b = new vector(n); 
@@ -8,5 +8,8 @@ public class LeastSquares{
             for(int k=0;k<m;k++)A[i,k]=fs [k](x[i])/dy[i]; 
         } 
         vector c = QR.solve(A,b); // solves ||A∗c−b||−>min matrix AI = A.inverse (); // calculates pseudoinverse matrix Σ = AI∗AI.T; return (c, Σ); }
+        matrix sigma = QR.inverse(A.T*A);
+
+        return (sigma, c);
     }
 }

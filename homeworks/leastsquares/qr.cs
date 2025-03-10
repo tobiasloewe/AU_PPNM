@@ -29,53 +29,35 @@ public class QR{
             this.b[i]=(this.b[i]-sum)/this.R[i,i];
         }
     }
-    public static matrix inverse2(matrix A){
-        int n = A.size1; 
-        matrix A_inv = new matrix(n, n);
-        for (int i = 0; i < n; i++) {
-            vector e_i = new vector(n);
-            e_i[i] = 1;
-            (matrix Q, matrix R) = decomp(A);
-            vector x = solve(Q, R, e_i);
-            for (int j = 0; j < n; j++) {
-                A_inv[j, i] = x[j];
-            }
-        }
-        return A_inv;
-    }
     public static matrix inverse(matrix A) {
-    int m = A.size1, n = A.size2;
-    
-    if (m == n) {
-        // Square matrix: Use standard QR-based inverse
-        matrix A_inv = new matrix(n, n);
-        for (int i = 0; i < n; i++) {
-            vector e_i = new vector(n);
-            e_i[i] = 1;
-            (matrix q, matrix r) = decomp(A);
-            vector x = solve(q, r, e_i);
-            for (int j = 0; j < n; j++) {
-                A_inv[j, i] = x[j];
+        int n = A.size1; // Number of rows
+        int m = A.size2; // Number of columns
+
+        if (n == m) {
+            // Square matrix: Use standard QR-based inverse
+            matrix A_inv = new matrix(n, n);
+            for (int i = 0; i < n; i++) {
+                vector e_i = new vector(n);
+                e_i[i] = 1;
+                vector x = solve(A, e_i);
+                for (int j = 0; j < n; j++) {
+                    A_inv[j, i] = x[j];
+                }
             }
+            return A_inv;
+        } 
+        else if (n > m) {
+            matrix AtA = A.T * A;
+            matrix AtA_inv = QR.inverse(AtA); // Invert AtA
+            matrix A_inv = AtA_inv*A.T;
+            return A_inv;
+        } 
+        else {
+            matrix AAt = A*A.T;
+            matrix AAt_inv = QR.inverse(AAt);
+            matrix A_inv = A.T*AAt_inv;
+            return A_inv;
         }
-        return A_inv;
-    } else {
-        // Non-square case: Compute pseudo-inverse A^+
-        (matrix Q, matrix R) = decomp(A);
-        if (m > n) {
-            // Tall matrix (m > n): A⁺ = (Aᵀ A)⁻¹ Aᵀ
-            matrix At = A.T;
-            matrix AtA = At * A;
-            matrix AtA_inv = inverse(AtA); // Recursive call on square matrix
-            return AtA_inv * At;
-        } else {
-            // Wide matrix (m < n): A⁺ = Aᵀ (A Aᵀ)⁻¹
-            matrix At = A.T;
-            matrix AAt = A * At;
-            matrix AAt_inv = inverse(AAt); // Recursive call on square matrix
-            return At * AAt_inv;
-        }
-    }
     }
 
     public static (matrix, matrix) decomp(matrix Aext){
@@ -89,11 +71,11 @@ public class QR{
                 Rext[i,j]=Qext[i].dot(Qext[j]);
                 Qext[j]-=Qext[i]*Rext[i,j];
             }
-        } 
+        }
         return (Qext, Rext);
     }
 
-    public static vector solve(matrix Rext, matrix Qext, vector bext){
+    public static vector solve(matrix Qext, matrix Rext, vector bext){
         bext = Qext.T*bext;
         for(int i=bext.size -1; i>=0; i--){
             double sum=0;
@@ -103,7 +85,10 @@ public class QR{
         return bext;
     }
 
-
+    public static vector solve (matrix Aex, vector bex){
+        (matrix Qex, matrix Rex) = decomp(Aex);
+        return solve(Qex, Rex, bex);
+    }
 
 
 }

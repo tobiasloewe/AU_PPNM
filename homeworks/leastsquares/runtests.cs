@@ -16,18 +16,27 @@ class Testing{
         }
     }
     var rnd = new System.Random(1); 
-    var A = new matrix(n,m);
-    var b = new vector(n);
+    
+    var Atall = new matrix(n,m);
+    var Awide = new matrix(m,n);
+    var Asq = new matrix(n,n);
+    
+    
     for (int i=0; i<n; i++){
         for (int j=0; j<m; j++){
-            A.set(i,j,rnd.NextDouble());
+            Atall.set(i,j,rnd.NextDouble());
+        }
+    }
+    for (int i=0; i<m; i++){
+        for (int j=0; j<n; j++){
+            Awide.set(i,j,rnd.NextDouble());
+        }
+    }
+    for (int i = 0; i<n; i++){
+        for (int j=0; j<n; j++){
+            Asq[i][j] = rnd.NextDouble();
         }
     }
 
-    //(matrix Q, matrix R) = QR.decomp(A);
-    matrix Ainv = (QR.inverse2(A));
-    matrix isThisId = (A*Ainv);
-    //R.print();
-    isThisId.print("is this Id ");
 }
 }
