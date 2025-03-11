@@ -1,9 +1,0 @@
- \
-	set terminal svg; \
-	set output "plot.fit.svg"; \
-	set key bottom ;\
-	set xlabel columnheader(1) ;\
-	set ylabel columnheader(2) ;\
-	plot  \
-		"out.txt" index 0 using 1:2:3 with yerrorlines title "GS QR and Backsub" \
-

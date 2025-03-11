@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using static System.Math;
 
-class Testing{
+class main{
     static void Main(string[] args){
     // init vars
     string[] labels = null;
@@ -40,21 +40,27 @@ class Testing{
     var fs = new Func<double,double>[] { z => 1.0, z => -z}; 
 
     (vector par, matrix cov) = Fit.ls(fs, fitdata[0],logfitdata,logfiterror);
+    double[] stds = new double[2] {Sqrt(cov[0][0]),Sqrt(cov[1][1])};
+
     var fittedFunc = new Func<double, double>(z => Math.Exp(par[0]) * Math.Exp(-par[1] * z));
+    var fittedFunc1 = new Func<double, double>(z => Math.Exp(par[0]+stds[0]) * Math.Exp(-(par[1]+stds[1]) * z));
+    var fittedFunc2 = new Func<double, double>(z => Math.Exp(par[0]-stds[0]) * Math.Exp(-(par[1]-stds[1]) * z));
+    var fittedFunc3 = new Func<double, double>(z => Math.Exp(par[0]-stds[0]) * Math.Exp(-(par[1]+stds[1]) * z));
+    var fittedFunc4 = new Func<double, double>(z => Math.Exp(par[0]+stds[0]) * Math.Exp(-(par[1]-stds[1]) * z));
 
     Write("# ");
     foreach (string label in labels){
         Write($"\"{label}\" ");
     }
-    Write($"\"{"Test"}\" ");
+    Write($"\"{"Fitted data"}\" \"{"Fitted error ++"}\" \"{"Fitted error --"}\" \"{"Fitted error -+"}\"\"{"Fitted error +-"}\" ");
     
     Write("\n");
     for (int i = 0; i<fitdata[0].Length; i++){
-        WriteLine($"{fitdata[0][i]} {fitdata[1][i]} {fitdata[2][i]} {fittedFunc(fitdata[0][i])}");
+        WriteLine($"{fitdata[0][i]} {fitdata[1][i]} {fitdata[2][i]} {fittedFunc(fitdata[0][i])} {fittedFunc1(fitdata[0][i])} {fittedFunc2(fitdata[0][i])} {fittedFunc3(fitdata[0][i])} {fittedFunc4(fitdata[0][i])}");
     }
     WriteLine("\n");
-    cov.print("Cov matrix");
-    WriteLine($"Half life {Log(2)/par[1]}");
-
+    WriteLine($"Half life: {Log(2)/par[1]:F4} +- {stds[1]/par[1]/par[1]*Log(2):F4} days");
+    WriteLine($"modern value: 3.6313 +- 0.0012 days");
+    cov.print("\nCov matrix: ");
 }
 }
