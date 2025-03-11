@@ -14,6 +14,8 @@ plot.fit.svg : out.txt Makefile
 			set output "$@"; \
 			set key top ;\
 			set grid; \
+			set xlabel "time t" ;\
+			set ylabel "ThX" ;\
 			plot  \
 				"$<" index 0 using 1:2:3 with yerrorlines title "Rutherford Data", \
 				"$<" index 0 using 1:4 with lines title "LS Fit" \
