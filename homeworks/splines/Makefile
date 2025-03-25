@@ -5,23 +5,31 @@ MKEXE = mcs -out:$@ -target:exe $(DLLS) $(CODE)
 CSC = mcs
 RUN = mono
 
-all: out.txt plot.fit.svg plot.fiterror.svg; cat $<
+all: plot.fit.svg;
+
+plot.fit.svg : data.txt out.txt Makefile
+		echo ' \
+			set terminal svg; \
+			set output "$@"; \
+			set key top ;\
+			set grid; \
+			set xlabel "x" ;\
+			set ylabel "y" ;\
+			plot  \
+				"out.txt" index 0 pt 7 ps 1 title "linear spline", \
+				"$<" index 0 pt 1 ps 3 title "Cos(x) data" \
+		' | gnuplot
 
 out.txt: main.exe
-	mono $< $@;
+	mono $< -data data.txt >$@;
 
-main.exe: main.cs matrix.dll jacobi.dll qr.dll fit.dll; $(MKEXE)
-
-jacobi.dll: jacobi.cs matrix.dll; $(MKLIB)
+main.exe: main.cs fit.dll matrix.dll; $(MKEXE)
 
 fit.dll: fit.cs qr.dll matrix.dll; $(MKLIB)
 
-qr.dll: qr.cs matrix.dll; $(MKLIB)
+qr.dll: ../libraries/qr.cs matrix.dll; $(MKLIB)
 
-matrix.dll : ../matrix/vector.cs ../matrix/matrix.cs; $(MKLIB)
+matrix.dll : ../libraries/vector.cs ../libraries/matrix.cs; $(MKLIB)
 
 clean:
-	$(RM) *.dll *.exe [Oo]ut*
-
-cleanouts:
-	$(RM) *.txt *.svg *.gpi *.svg
+	$(RM) *.dll *.exe [Oo]ut* *.svg

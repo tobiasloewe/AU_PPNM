@@ -23,13 +23,13 @@ public class Fit{
             return result;
         };
     }
-    public static Func<double,double> splines(){
-        public static double linterp(double[] x, double[] y, double z){
-        int i=binsearch(x,z);
-        double dx=x[i+1]-x[i]; if(!(dx>0)) throw new Exception("uups...");
-        double dy=y[i+1]-y[i];
-        return y[i]+dy/dx*(z-x[i]);
-        }
+    public static Func<double,double> splines(vector x, vector y){
+        return delegate(double z){
+            int i=binsearch(x,z);
+            double dx=x[i+1]-x[i]; if(!(dx>0)) throw new Exception("uups...");
+            double dy=y[i+1]-y[i];
+            return y[i]+dy/dx*(z-x[i]);
+        };
     }
     public static int binsearch(double[] x, double z)
         {/* locates the interval for z by bisection */ 
