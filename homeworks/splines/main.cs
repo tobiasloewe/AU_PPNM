@@ -26,16 +26,14 @@ static void Main(string[] args){
             res = int.Parse(args[i+1]);
         }
     }
-
-    var lspline = Fit.linSplines(x,y);
-
     double [] bout, cout;
-
+    var lspline = Fit.linSplines(x,y);
     var qspline = Fit.quadSplines(x,y, out bout, out cout);
     var cspline = Fit.cubicSplines(x,y);
-
-    Error.WriteLine($"{bout[1]} {cout[1]}");
-
+    for (int i=0; i<bout.Length; i++){
+        Error.WriteLine($"{bout[i]} {cout[i]}");
+    }
+    
     double[] splinex = new double[x.Length*res];
     double splinexStep = (x[x.Length-1]-x[0])/splinex.Length;
     for (int i = 0; i<splinex.Length; i++){
