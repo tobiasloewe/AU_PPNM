@@ -30,6 +30,10 @@ static void Main(string[] args){
     var lspline = Fit.linSplines(x,y);
     var qspline = Fit.quadSplines(x,y, out bout, out cout);
     var cspline = Fit.cubicSplines(x,y);
+    var linint = Fit.linSplineInt(x,y);
+    var quadint = Fit.quadSplineInt(x,y);
+    var cubicint = Fit.cubicSplineInt(x,y);
+
     for (int i=0; i<bout.Length; i++){
         Error.WriteLine($"{bout[i]} {cout[i]}");
     }
@@ -41,7 +45,7 @@ static void Main(string[] args){
     }
     
     for (int i = 0; i < splinex.Length; i++){
-        WriteLine($"{splinex[i]} {lspline(splinex[i])} {qspline(splinex[i])} {cspline(splinex[i])}");
+        WriteLine($"{splinex[i]} {lspline(splinex[i])} {qspline(splinex[i])} {cspline(splinex[i])} {linint(splinex[i])} {quadint(splinex[i])} {cubicint(splinex[i])}");
     }
 }    
 }

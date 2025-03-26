@@ -5,16 +5,33 @@ MKEXE = mcs -out:$@ -target:exe $(DLLS) $(CODE)
 CSC = mcs
 RUN = mono
 
-all: plot.fit.svg;
+all: plot.splines.png plot.ints.png;
 
-plot.fit.svg : data.txt out.txt Makefile
+plot.ints.png : data.txt out.txt Makefile
 		echo ' \
-			set terminal svg; \
+			set terminal png; \
 			set output "$@"; \
 			set key top ;\
 			set grid; \
 			set xlabel "x" ;\
 			set ylabel "y" ;\
+			plot  \
+				"out.txt" index 0 using 1:4 pt 3 ps 1 title "cubic splines", \
+				"out.txt" index 0 using 1:5 pt 3 ps 1 title "lin spline int", \
+				"out.txt" index 0 using 1:6 pt 3 ps 1 title "quad spline int", \
+				"out.txt" index 0 using 1:7 pt 3 ps 1 title "cubic spline int", \
+				"$<" index 0 pt 1 ps 3 title "Cos(x) data" \
+		' | gnuplot
+
+plot.splines.png : data.txt out.txt Makefile
+		echo ' \
+			set terminal png; \
+			set output "$@"; \
+			set key top ;\
+			set grid; \
+			set xlabel "x" ;\
+			set ylabel "y" ;\
+			set yrange [-1.5:1.5]; \
 			plot  \
 				"out.txt" index 0 using 1:2 pt 7 ps 1 title "linear splines", \
 				"out.txt" index 0 using 1:3 pt 5 ps 1 title "quadratic splines", \
