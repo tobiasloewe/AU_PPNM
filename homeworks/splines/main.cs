@@ -27,7 +27,8 @@ static void Main(string[] args){
         }
     }
 
-    var lspline = Fit.splines(x,y);
+    var lspline = Fit.linSplines(x,y);
+    var qspline = Fit.quadSplines(x,y);
     double[] splinex = new double[x.Length*res];
     double splinexStep = (x[x.Length-1]-x[0])/splinex.Length;
     for (int i = 0; i<splinex.Length; i++){
@@ -35,7 +36,7 @@ static void Main(string[] args){
     }
     
     for (int i = 0; i < splinex.Length; i++){
-        WriteLine($"{splinex[i]} {lspline(splinex[i])}");
+        WriteLine($"{splinex[i]} {lspline(splinex[i])} {qspline(splinex[i])}");
     }
 }    
 }

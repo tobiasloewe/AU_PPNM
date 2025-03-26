@@ -16,7 +16,8 @@ plot.fit.svg : data.txt out.txt Makefile
 			set xlabel "x" ;\
 			set ylabel "y" ;\
 			plot  \
-				"out.txt" index 0 pt 7 ps 1 title "linear spline", \
+				"out.txt" index 0 using 1:2 pt 7 ps 1 title "linear spline", \
+				"out.txt" index 0 using 1:3 pt 5 ps 1 title "quad spline", \
 				"$<" index 0 pt 1 ps 3 title "Cos(x) data" \
 		' | gnuplot
 
