@@ -41,6 +41,44 @@ public class Fit{
             }
         return i;
 	}
+    public static Func<double, double> quadSplines(double[] x, double[] y, out double[] bcopy, out double[] ccopy) {
+        int n = x.Length;
+        if (y.Length != n) throw new ArgumentException("x and y must have the same length");
+
+        double[] b = new double[n - 1];
+        double[] c = new double[n - 1];
+        double[] h = new double[n - 1];
+        double[] p = new double[n - 1];
+
+        for (int i = 0; i < n - 1; i++) {
+            h[i] = x[i + 1] - x[i];
+            p[i] = (y[i + 1] - y[i]) / h[i];
+        }
+
+        c[0] = 0;
+        for (int i = 0; i < n - 2; i++)
+            c[i + 1] = (p[i + 1] - p[i] - c[i] * h[i]) / h[i + 1];
+
+        c[n - 2] /= 2;
+        for (int i = n - 3; i >= 0; i--)
+            c[i] = (p[i + 1] - p[i] - c[i + 1] * h[i + 1]) / h[i];
+
+        for (int i = 0; i < n - 1; i++)
+            b[i] = p[i] - c[i] * h[i];
+        
+        ccopy = (double[])c.Clone();
+        bcopy = (double[])b.Clone(); 
+
+        return z => {
+            if (z < x[0] || z > x[n - 1]) throw new ArgumentException("z out of bounds");
+
+            // binary search
+            int i = binsearch(x,z);
+
+            double dz = z - x[i];
+            return y[i] + dz * (b[i] + dz * c[i]);
+        };
+    }
     public static Func<double, double> quadSplines(double[] x, double[] y) {
         int n = x.Length;
         if (y.Length != n) throw new ArgumentException("x and y must have the same length");
@@ -81,6 +119,72 @@ public class Fit{
             return y[i] + dz * (b[i] + dz * c[i]);
         };
     }
+    public static Func<double, double> cubicSplines(double[] x, double[] y) {
+        int n = x.Length;
+        if (y.Length != n) throw new ArgumentException("x and y must have the same length");
+
+        double[] b = new double[n];
+        double[] c = new double[n - 1];
+        double[] d = new double[n - 1];
+        double[] h = new double[n - 1];
+        double[] p = new double[n - 1];
+
+        for (int i = 0; i < n - 1; i++) {
+            h[i] = x[i + 1] - x[i];
+            if (h[i] <= 0) throw new Exception("x must be strictly increasing");
+            p[i] = (y[i + 1] - y[i]) / h[i];
+        }
+
+        double[] D = new double[n];
+        double[] Q = new double[n - 1];
+        double[] B = new double[n];
+
+        D[0] = 2;
+        Q[0] = 1;
+        B[0] = 3 * p[0];
+
+        for (int i = 0; i < n - 2; i++) {
+            D[i + 1] = 2 * h[i] / h[i + 1] + 2;
+            Q[i + 1] = h[i] / h[i + 1];
+            B[i + 1] = 3 * (p[i] + p[i + 1] * h[i] / h[i + 1]);
+        }
+
+        D[n - 1] = 2;
+        B[n - 1] = 3 * p[n - 2];
+
+        // Forward elimination
+        for (int i = 1; i < n; i++) {
+            D[i] -= Q[i - 1] / D[i - 1];
+            B[i] -= B[i - 1] / D[i - 1];
+        }
+
+        b[n - 1] = B[n - 1] / D[n - 1];
+
+        // Back substitution
+        for (int i = n - 2; i >= 0; i--)
+            b[i] = (B[i] - Q[i] * b[i + 1]) / D[i];
+
+        for (int i = 0; i < n - 1; i++) {
+            c[i] = (-2 * b[i] - b[i + 1] + 3 * p[i]) / h[i];
+            d[i] = (b[i] + b[i + 1] - 2 * p[i]) / (h[i] * h[i]);
+        }
+
+        return z => {
+            if (z < x[0] || z > x[n - 1]) throw new ArgumentException("z out of bounds");
+
+            int i = 0, j = n - 1;
+            while (j - i > 1) {
+                int m = (i + j) / 2;
+                if (z > x[m]) i = m;
+                else j = m;
+            }
+
+            double dz = z - x[i];
+            return y[i] + dz * (b[i] + dz * (c[i] + dz * d[i]));
+        };
+    }
+
+
 
 
 }
