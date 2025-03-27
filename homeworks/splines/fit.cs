@@ -108,12 +108,8 @@ public class Fit{
             if (z < x[0] || z > x[n - 1]) throw new ArgumentException("z out of bounds");
 
             // binary search
-            int i = 0, j = n - 1;
-            while (j - i > 1) {
-                int m = (i + j) / 2;
-                if (z > x[m]) i = m;
-                else j = m;
-            }
+            int i = binsearch(x,z);
+
 
             double dz = z - x[i];
             return y[i] + dz * (b[i] + dz * c[i]);
@@ -172,12 +168,8 @@ public class Fit{
         return z => {
             if (z < x[0] || z > x[n - 1]) throw new ArgumentException("z out of bounds");
 
-            int i = 0, j = n - 1;
-            while (j - i > 1) {
-                int m = (i + j) / 2;
-                if (z > x[m]) i = m;
-                else j = m;
-            }
+            int i = binsearch(x,z);
+
 
             double dz = z - x[i];
             return y[i] + dz * (b[i] + dz * (c[i] + dz * d[i]));
