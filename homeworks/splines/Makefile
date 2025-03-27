@@ -7,7 +7,7 @@ RUN = mono
 
 all: plot.linear.png plot.quadratic.png plot.cubic.png;
 
-plot.linear.png : data.txt out.txt Makefile
+plot.linear.png : data.txt splinedata.txt Makefile
 		echo ' \
 			set terminal png; \
 			set output "$@"; \
@@ -17,12 +17,12 @@ plot.linear.png : data.txt out.txt Makefile
 			set ylabel "y" ;\
 			set yrange [-1.5:1.5]; \
 			plot  \
-				"out.txt" index 0 using 1:2 pt 4 ps 1 title "lin spline", \
-				"out.txt" index 0 using 1:5 pt 4 ps 1 title "integral", \
+				"splinedata.txt" index 0 using 1:2 pt 4 ps 1 title "lin spline", \
+				"splinedata.txt" index 0 using 1:5 pt 4 ps 1 title "integral", \
 				"$<" index 0 pt 2 ps 2.5 lc rgb "red" title "Cos(x) data" \
 		' | gnuplot
 
-plot.quadratic.png : data.txt out.txt Makefile
+plot.quadratic.png : data.txt splinedata.txt Makefile
 		echo ' \
 			set terminal png; \
 			set output "$@"; \
@@ -32,12 +32,12 @@ plot.quadratic.png : data.txt out.txt Makefile
 			set ylabel "y" ;\
 			set yrange [-1.5:1.5]; \
 			plot  \
-				"out.txt" index 0 using 1:3 pt 4 ps 1 title "quadratic splines", \
-				"out.txt" index 0 using 1:6 pt 4 ps 1 title "integral", \
+				"splinedata.txt" index 0 using 1:3 pt 4 ps 1 title "quadratic splines", \
+				"splinedata.txt" index 0 using 1:6 pt 4 ps 1 title "integral", \
 				"$<" index 0 pt 2 ps 2.5 lc rgb "red" title "Cos(x) data" \
 		' | gnuplot
 
-plot.cubic.png : data.txt out.txt Makefile
+plot.cubic.png : data.txt splinedata.txt Makefile
 		echo ' \
 			set terminal png; \
 			set output "$@"; \
@@ -47,13 +47,16 @@ plot.cubic.png : data.txt out.txt Makefile
 			set ylabel "y" ;\
 			set yrange [-1.5:1.5]; \
 			plot  \
-				"out.txt" index 0 using 1:4 pt 4 ps 1 title "cubic splines", \
-				"out.txt" index 0 using 1:7 pt 4 ps 1 title "integral", \
+				"splinedata.txt" index 0 using 1:4 pt 4 ps 1 title "cubic splines", \
+				"splinedata.txt" index 0 using 1:7 pt 4 ps 1 title "integral", \
 				"$<" index 0 pt 2 ps 2.5 lc rgb "red" title "Cos(x) data" \
 		' | gnuplot
 
+# I want the output from main.exe to be in splinedata.txt and the error to be in out.txt
 out.txt: main.exe
-	mono $< -data data.txt >$@;
+	mono $< -data data.txt > splinedata.txt 2>$@; 
+
+splinedata.txt: out.txt;
 
 main.exe: main.cs fit.dll matrix.dll; $(MKEXE)
 
