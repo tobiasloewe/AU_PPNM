@@ -33,6 +33,7 @@ static void Main(string[] args){
     var linint = Fit.linSplineInt(x,y);
     var quadint = Fit.quadSplineInt(x,y);
     var cubicint = Fit.cubicSplineInt(x,y);
+    var cubicd = Fit.cubicSplineD(x,y);
 
     // manually calculate the coefficients for the quadratic spline
     int n = x.Length;
@@ -76,7 +77,7 @@ static void Main(string[] args){
     }
     
     for (int i = 0; i < splinex.Length; i++){
-        WriteLine($"{splinex[i]} {lspline(splinex[i])} {qspline(splinex[i])} {cspline(splinex[i])} {linint(splinex[i])} {quadint(splinex[i])} {cubicint(splinex[i])}");
+        WriteLine($"{splinex[i]} {lspline(splinex[i])} {qspline(splinex[i])} {cspline(splinex[i])} {linint(splinex[i])} {quadint(splinex[i])} {cubicint(splinex[i])} {cubicd(splinex[i])}");
     }
 }    
 }
