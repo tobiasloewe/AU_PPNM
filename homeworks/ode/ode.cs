@@ -16,6 +16,32 @@ public class ODE
         vector δy = (k1-k0)*h;           /* error estimate */
         return (yh,δy);
     }
+
+    // Runge-Kutta 2nd/3rd order step function
+    public static (vector, vector) rkstep23(
+        Func<double, vector, vector> F, // Function representing the system: dy/dx = F(x, y)
+        double x,  // Current x-value (independent variable)
+        vector y,  // Current y-value (state of the system)
+        double h   // Step size
+    ) { 
+        // Compute the Runge-Kutta increments (intermediate steps)
+        vector k0 = F(x, y);                       // k0: Evaluate function at (x, y)
+        vector k1 = F(x + h / 2, y + k0 * (h / 2)); // k1: Midpoint evaluation
+        vector k2 = F(x + 3 * h / 4, y + k1 * (3 * h / 4)); // k2: 3/4 step evaluation
+
+        // Compute the next value approximation using weighted sum
+        vector ka = k0 * (2.0 / 9) + k1 * (3.0 / 9) + k2 * (4.0 / 9); 
+        vector kb = k1; // 2nd-order estimate
+        
+        // Compute the next state estimate
+        vector yh = y + ka * h; 
+        
+        // Estimate error using difference between two different approximations
+        vector er = (ka - kb) * h; 
+
+        return (yh, er); // Return estimated next value and error
+    }
+
     public static (genlist<double>,genlist<vector>) driver(
         Func<double,vector,vector> F,/* the f from dy/dx=f(x,y) */
         (double,double) interval,    /* (initial-point,final-point) */
@@ -30,7 +56,7 @@ public class ODE
     do{
         if(x>=b) return (xlist,ylist); /* job done */
         if(x+h>b) h=b-x;               /* last step should end at b */
-        var (yh,δy) = rkstep12(F,x,y,h);
+        var (yh,δy) = rkstep23(F,x,y,h);
         double tol = (acc+eps*yh.norm()) * Sqrt(h/(b-a));
         double err = δy.norm();
         if(err<=tol){ // accept step
