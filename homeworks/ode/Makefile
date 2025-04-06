@@ -6,26 +6,33 @@ CSC = mcs
 RUN = mono
 
 
-all: plot.harmonic.png plot.pendulum.png plot.orbit.png;
+all: plot.harmonic.png plot.pendulum.png plot.orbits.png;
 
-plot.orbit.png : out.txt Makefile
+plot.orbits.png : orbit1.txt orbit2.txt orbit3.txt Makefile
 	echo ' \
 		set terminal png; \
 		set output "$@"; \
 		set key top ;\
+		set title "Planetary Orbits"; \
+		set xlabel "x"; \
+		set ylabel "y"; \
 		set grid; \
-		set xlabel "x" ;\
-		set ylabel "y" ;\
+		set yrange [-2.5:2.5]; \
+		set xrange [-2.5:2.5]; \
 		plot  \
-			"$<" index 2 using 1:2 with lines notitle\
+			"orbit1.txt" index 0 using 1:2 with lines lw 2 lc rgb "blue" title "circular", \
+			"orbit2.txt" index 0 using 1:2 with lines lw 2 lc rgb "red" title "elliptic", \
+			"orbit3.txt" index 0 using 1:2 with lines lw 2 lc rgb "orange" title "relativistic", \
 	' | gnuplot
 
-plot.harmonic.png : out.txt Makefile
+
+plot.harmonic.png : harmonic.txt Makefile
 	echo ' \
 		set terminal png; \
 		set output "$@"; \
 		set key top ;\
 		set grid; \
+		set title "Harmonic Oscillator"; \
 		set xlabel "x" ;\
 		set ylabel "y" ;\
 		plot  \
@@ -33,23 +40,32 @@ plot.harmonic.png : out.txt Makefile
 			"$<" index 0 using 1:3 with lines lw 2 lc rgb "blue" title "u2"\
 	' | gnuplot
 
-plot.pendulum.png : out.txt Makefile
+plot.pendulum.png : pendulum.txt Makefile
 	echo ' \
 		set terminal png; \
 		set output "$@"; \
 		set key top ;\
 		set grid; \
+		set title "Damped Pendulum"; \
 		set xlabel "x" ;\
 		set ylabel "y" ;\
 		plot  \
-			"$<" index 1 using 1:2 with lines lw 2 lc rgb "red" title "u1", \
-			"$<" index 1 using 1:3 with lines lw 2 lc rgb "blue" title "u2"\
+			"$<" index 0 using 1:2 with lines lw 2 lc rgb "red" title "u1", \
+			"$<" index 0 using 1:3 with lines lw 2 lc rgb "blue" title "u2"\
 	' | gnuplot
 
 out.txt: main.exe
-	mono $< 2> orbits.txt >$@;
+	mono $< >$@;
 
-orbits.txt: out.txt; 
+pendulum.txt: out.txt;
+
+harmonic.txt: out.txt; 
+
+orbit1.txt: out.txt; 
+
+orbit2.txt: out.txt;
+
+orbit3.txt: out.txt;
 
 main.exe: main.cs matrix.dll ode.dll genlist.dll; $(MKEXE)
 
@@ -60,4 +76,4 @@ genlist.dll : ../libraries/genlist.cs matrix.dll; $(MKLIB)
 matrix.dll : ../libraries/vector.cs ../libraries/matrix.cs; $(MKLIB)
 
 clean:
-	$(RM) *.dll *.exe [Oo]ut* *.svg *.png
+	$(RM) *.dll *.exe [Oo]ut* *.svg *.txt

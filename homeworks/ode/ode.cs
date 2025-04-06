@@ -48,11 +48,13 @@ public class ODE
         vector yinit,                /* y(initial-point) */
         double h=0.125,              /* initial step-size */
         double acc=0.01,             /* absolute accuracy goal */
-        double eps=0.01              /* relative accuracy goal */
+        double eps=0.01,              /* relative accuracy goal */
+        int minsteps=30              /* minimum number of steps */
     ){
     var (a,b)=interval; double x=a; vector y=yinit.copy();
     var xlist=new genlist<double>(); xlist.add(x);
     var ylist=new genlist<vector>(); ylist.add(y);
+    double hmax= (b-a)/minsteps; // maximum step size
     do{
         if(x>=b) return (xlist,ylist); /* job done */
         if(x+h>b) h=b-x;               /* last step should end at b */
@@ -64,8 +66,14 @@ public class ODE
             xlist.add(x);
             ylist.add(y);
             }
-        if(err>0) h *= Min( Pow(tol/err,0.25)*0.95 , 2); // readjust stepsize
-        else h*=2;
+        if (h<hmax){
+            if(err>0) h *= Min( Pow(tol/err,0.25)*0.95 , 2); // readjust stepsize
+            else h*=2;
+        }
+        else{
+            h=hmax; // reset to maximum step size
+        }
+
         }while(true);
     }//driver
 

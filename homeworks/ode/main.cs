@@ -8,30 +8,13 @@ class Program {
             double u2 = u[1];
             return new vector(u2, -u1); // u1' = u2, u2' = -u1
         };
-        Console.WriteLine("Harmonic Oscillator");
-        vector u0_1 = new vector(1.0, 0.0); // Initial conditions: u(0) = 1, u'(0) = 0
-        double t0_1 = 0, tEnd_1 = 10;         // Time range: t = [0, 10]
-        var (ts1, us1) = ODE.driver(harmonicOscillator, (t0_1, tEnd_1), u0_1);
-        for (int i = 0; i < ts1.size; i++) {
-            Console.WriteLine($"{ts1[i]} {us1[i][0]} {us1[i][1]}");
-        }
 
         // Second example: Damped pendulum
-        double b = 0.25; // Damping coefficient
-        double c = 5.0;  // Gravitational constant
         Func<double, vector, vector> pendulum = (t, y) => {
             double theta = y[0];
             double omega = y[1];
-            return new vector(omega, -b * omega - c * Math.Sin(theta)); // theta' = omega, omega' = -b*omega - c*sin(theta)
+            return new vector(omega, -0.25 * omega - 5.0 * Math.Sin(theta)); // theta' = omega, omega' = -b*omega - c*sin(theta)
         };
-
-        Console.WriteLine("\n\nPendulum");
-        double t0_2 = 0, tEnd_2 = 10;
-        vector u0_2 = new vector(Math.PI - 0.1, 0.0); // Initial conditions: theta(0) = pi - 0.1, omega(0) = 0
-        var (ts2, us2) = ODE.driver(pendulum, (t0_2, tEnd_2), u0_2);
-        for (int i = 0; i < ts2.size; i++) {
-            Console.WriteLine($"{ts2[i]} {us2[i][0]} {us2[i][1]}");
-        }
 
         // Third example: Relativistic precession of planetary orbit
         Func<double, vector, vector> planetaryOrbit12 = (phi, y) => {
@@ -42,33 +25,54 @@ class Program {
         Func<double, vector, vector> planetaryOrbit3 = (phi, y) => {
             double y0 = y[0]; // u(phi)
             double y1 = y[1]; // u'(phi)
-            double epsilon = 0.015; // Relativistic correction
-            return new vector(y1, 1 - y0 + epsilon * y0 * y0); // y0' = y1, y1' = 1 - y0 + epsilon * y0^2
+            return new vector(y1, 1 - y0 + 0.015 * y0 * y0); // y0' = y1, y1' = 1 - y0 + epsilon * y0^2
         };
 
-        Console.WriteLine("\n\nPlanetary Orbit 1");
-        // Case 1: Newtonian circular motion (epsilon = 0, u(0) = 1, u'(0) = 0)
-        vector u0_3 = new vector(1.0, 0.0);
-        var (phi1, orbit1) = ODE.driver(planetaryOrbit12, (0, 20 * Math.PI), u0_3);
-        for (int i = 0; i < phi1.size; i++) {
-            Console.WriteLine($"{phi1[i]} {orbit1[i][0]} {orbit1[i][1]}");
-        }
+        // Orbits
         
-        Console.WriteLine("\n\nPlanetary Orbit 2");
-        // Case 2: Newtonian elliptical motion (epsilon = 0, u(0) = 1, u'(0) ≈ -0.5)
-        vector u0_4 = new vector(1.0, -0.5);
-        var (phi2, orbit2) = ODE.driver(planetaryOrbit12, (0, 20 * Math.PI), u0_4);
-        for (int i = 0; i < phi2.size; i++) {
-            Console.WriteLine($"{phi2[i]} {orbit2[i][0]} {orbit2[i][1]}");
-        }
+        double tolerance = 0.01; // Tolerance for integration
+        // Initial conditions for planetary motion
+        vector u0_1 = new vector(1.0, 0.0); // Initial conditions: u(0) = 1, u'(0) = 0
+        vector u0_2 = new vector(Math.PI - 0.1, 0.0); // Initial conditions: theta(0) = pi - 0.1, omega(0) = 0
+        vector u0_3 = new vector(1.0, 0.0);   // Newtonian circular orbit
+        vector u0_4 = new vector(1.0, -0.5); // Newtonian elliptical orbit
+        vector u0_5 = new vector(1.0, -0.5); // Relativistic precession
 
-        Console.WriteLine("\n\nPlanetary Orbit 3");
-        vector u0_5 = new vector(1.0, -0.5);
-        var (phi3, orbit3) = ODE.driver(planetaryOrbit3, (0, 20 * Math.PI), u0_5);
-        //Console.WriteLine("\nPlanetary Orbit (Relativistic Precession):");
-        for (int i = 0; i < phi3.size; i++) {
-            Console.WriteLine($"{phi3[i]} {orbit3[i][0]} {orbit3[i][1]}");
+        // Solve for multiple orbits
+        var lims1 = (0, 10);
+        var limsOrbs = (0, 20 * Math.PI); // Simulate 10 full orbits
+
+        SolveAndWrite(harmonicOscillator, lims1, u0_1, "harmonic.txt", tolerance, 0.01);
+        Error.WriteLine("harmonic done");
+        SolveAndWrite(pendulum, lims1, u0_2, "pendulum.txt", tolerance, 0.01);
+        Error.WriteLine("pendulum done");
+        SolveAndWrite(planetaryOrbit12, (0,4*Math.PI), u0_3, "orbit1.txt", tolerance, 0.001, true);
+        Error.WriteLine("orbit1 done");
+        SolveAndWrite(planetaryOrbit12, limsOrbs, u0_4, "orbit2.txt", tolerance, 0.001, true);
+        Error.WriteLine("orbit2 done");
+        SolveAndWrite(planetaryOrbit3, limsOrbs, u0_5, "orbit3.txt", tolerance, 0.001, true);
+        Error.WriteLine("orbit3 done");
+    }
+
+    public static void SolveAndWrite(
+        Func<double, vector, vector> F, (double, double) limits, vector u0, string filename,
+        double tolerance, double stepSize0, bool orbit = false)
+    {
+
+        var (xlist, ylist) = ODE.driver(F, limits, u0, stepSize0, tolerance, tolerance);
+        // Write
+        using (var outfile = new System.IO.StreamWriter(filename))
+        {
+            if(orbit){Error.WriteLine("orbit true");};
+            for (int i = 0; i < xlist.size; i++)
+            {
+                if(orbit){
+                    outfile.WriteLine($"{(1/ylist[i][0])*Math.Cos(xlist[i])} {(1/ylist[i][0])*Math.Sin(xlist[i])} {xlist[i]} {ylist[i][0]}");
+                }
+                else {
+                    outfile.WriteLine($"{xlist[i]} {ylist[i][0]} {ylist[i][1]}");
+                }
+            }
         }
-        
     }
 }
