@@ -51,17 +51,32 @@ class main{
         z = -1.0;
         result = erf(z);
         Console.WriteLine($"erf({z}) = {result} (Expected: ~-0.8427)");
+
+        // Calculate erf(1) with varying accuracy and write results to a file   
+        using (System.IO.StreamWriter file = new System.IO.StreamWriter("erf1.txt"))
+        {
+            double exactResult = 0.84270079294971486934; // Exact value of erf(1)
+            double acc = 0.1;
+
+            while (acc >= 1e-16)
+            {
+            double computedResult = erf(1, acc,0.0);
+            double error = Math.Abs(computedResult - exactResult);
+            file.WriteLine($"{acc} {error}");
+            acc /= 10; // Decrease accuracy
+            }
+        }
     }
-    static double erf(double z) {
+    static double erf(double z, double acc = 1e-6, double eps = 1e-6) {
         if (z < 0) {
         return -erf(-z);
         } else if (z <= 1) {
         return 2 / Math.Sqrt(Math.PI) * Quadratures.integrate(
-            (x) => Math.Exp(-x * x), 0, z, 1e-6, 1e-6, double.NaN, double.NaN
+            (x) => Math.Exp(-x * x), 0, z, acc, eps, double.NaN, double.NaN
         );
         } else {
         return 1 - 2 / Math.Sqrt(Math.PI) * Quadratures.integrate(
-            (t) => Math.Exp(-Math.Pow(z + (1 - t) / t, 2) / (t * t)) / t, 0, 1, 1e-8, 1e-8, double.NaN, double.NaN
+            (t) => Math.Exp(-Math.Pow(z + (1 - t) / t, 2) / (t * t)) / t, 0, 1, acc, eps, double.NaN, double.NaN
         );
         }
     }
