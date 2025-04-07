@@ -66,6 +66,17 @@ class main{
             acc /= 10; // Decrease accuracy
             }
         }
+        // Example 6: Using CCintegrate for comparison
+        Quadratures.ResetEvaluationCount();
+        result = Quadratures.CCintegrate(
+            (x) => 1 / Math.Sqrt(x), 0, 1, 1e-6, 1e-6
+        );
+        Console.WriteLine($"CCintegrate ∫_0^1 1/√(x) dx = {result} (Expected: 2), Evaluation Count: {Quadratures.EvaluationCount}");
+        Quadratures.ResetEvaluationCount();
+        result = Quadratures.CCintegrate(
+            (x) => Math.Log(x) / Math.Sqrt(x), 0, 1, 0.0001, 0.0001
+        );
+        Console.WriteLine($"CCintegrate ∫_0^1 ln(x)/√(x) dx = {result} (Expected: -4), Evaluation Count: {Quadratures.EvaluationCount}");
     }
     static double erf(double z, double acc = 1e-6, double eps = 1e-6) {
         if (z < 0) {

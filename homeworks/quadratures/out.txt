@@ -7,3 +7,5 @@ erf(1.5) = 0.988353292358887 (Expected: ~0.9661)
 erf(0) = 0 (Expected: 0)
 erf(2) = 0.998593039699672 (Expected: ~0.9953)
 erf(-1) = -0.842700794192611 (Expected: ~-0.8427)
+CCintegrate ∫_0^1 1/√(x) dx = 1.99999999993764 (Expected: 2), Evaluation Count: 352
+CCintegrate ∫_0^1 ln(x)/√(x) dx = -3.99999813339603 (Expected: -4), Evaluation Count: 272
