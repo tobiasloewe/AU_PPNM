@@ -1,0 +1,1 @@
+Test of quadratic spline coefficients: True

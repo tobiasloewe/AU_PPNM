@@ -1,0 +1,11 @@
+ \
+	set terminal svg; \
+	set output "plot.wavefunc.svg"; \
+	set key top ;\
+	set grid;\
+	set xlabel "r [Bohr]" ;\
+	set ylabel "Psi" ;\
+	plot  \
+		"wavefunc.txt" index 0 using 1:2 with lines title "R_{1,0}(r)", \
+		"wavefunc.txt" index 0 using 1:3 with lines title "\|R_{1,0}(r)|\|^2" \
+

@@ -1,0 +1,13 @@
+Tall 12 x 4 matrix:
+Is Q.T*Q = Id? True
+R should be upper triangular: 
+       2.1       1.17       1.73        1.8 
+         0        1.7      0.672       0.65 
+         0          0          1      0.451 
+         0          0          0      0.814 
+Half life: 4.0624 +- 0.1704 days
+modern value: 3.6313 +- 0.0012 days
+
+Cov matrix: 
+   0.00125   0.000197 
+  0.000197   5.12e-05 
