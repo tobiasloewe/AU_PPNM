@@ -17,7 +17,7 @@ out.txt: runtests.exe
 	mono $< -dim 10 >> $@;
 
 wavefunc.txt: hatom.exe
-	mono $< -rmax 10 -dr 0.05 -returnfunc 0 >>$@;
+	mono $< -rmax 10 -dr 0.05 -returnfunc 0 >$@;
 
 convdata.txt: hatom.exe Makefile
 #	rm convdata.txt
@@ -71,7 +71,7 @@ jacobi.dll: jacobi.cs matrix.dll; $(MKLIB)
 matrix.dll : ../matrix/vector.cs ../matrix/matrix.cs; $(MKLIB)
 
 clean:
-	$(RM) *.dll *.exe [Oo]ut*
+	$(RM) *.dll *.exe [Oo]ut* *.txt *.svg *.gpi *.log
 
 cleanouts:
 	$(RM) *.txt *.svg *.gpi
