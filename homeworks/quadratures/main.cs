@@ -71,39 +71,34 @@ class main{
         result = Quadratures.CCintegrate(
             (x) => 1 / Math.Sqrt(x), 0, 1, 1e-6, 1e-6
         );
-        Console.WriteLine($"CCintegrate ∫_0^1 1/√(x) dx = {result} (Expected: 2), Evaluation Count: {Quadratures.EvaluationCount}");
-        Console.WriteLine($"Python/Numpy Evaluation Count: ~10 (for comparison)");
+        Console.WriteLine($"CCintegrate ∫_0^1 1/√(x) dx = {result} (Expected: 2), Evaluation Count: {Quadratures.EvaluationCount}, Python (Scipy): 231");
         
         Quadratures.ResetEvaluationCount();
         result = Quadratures.CCintegrate(
             (x) => Math.Log(x) / Math.Sqrt(x), 0, 1, 0.0001, 0.0001
         );
-        Console.WriteLine($"CCintegrate ∫_0^1 ln(x)/√(x) dx = {result} (Expected: -4), Evaluation Count: {Quadratures.EvaluationCount}");
-        Console.WriteLine($"Python/Numpy Evaluation Count: ~15 (for comparison)");
+        Console.WriteLine($"CCintegrate ∫_0^1 ln(x)/√(x) dx = {result} (Expected: -4), Evaluation Count: {Quadratures.EvaluationCount}, Python (Scipy): 315");
 
         // Example 7: Infinite limit integral ∫_0^∞ e^(-x) dx (Expected: 1)
         Quadratures.ResetEvaluationCount();
         result = Quadratures.integrate(
             (x) => Math.Exp(-x), 0, double.PositiveInfinity, 1e-6, 1e-6, double.NaN, double.NaN
         );
-        Console.WriteLine($"∫_0^∞ e^(-x) dx = {result} (Expected: 1), Evaluation Count: {Quadratures.EvaluationCount}");
-        Console.WriteLine($"Python/Numpy Evaluation Count: ~20 (for comparison)");
+        Console.WriteLine($"∫_0^∞ e^(-x) dx = {result} (Expected: 1), Evaluation Count: {Quadratures.EvaluationCount}, Python (Scipy): 135");
 
         // Example 8: Infinite limit integral ∫_0^∞ x^2 e^(-x) dx (Expected: 2)
         Quadratures.ResetEvaluationCount();
         result = Quadratures.integrate(
             (x) => x * x * Math.Exp(-x), 0, double.PositiveInfinity, 1e-6, 1e-6, double.NaN, double.NaN
         );
-        Console.WriteLine($"∫_0^∞ x^2 e^(-x) dx = {result} (Expected: 2), Evaluation Count: {Quadratures.EvaluationCount}");
-        Console.WriteLine($"Python/Numpy Evaluation Count: ~25 (for comparison)");
+        Console.WriteLine($"∫_0^∞ x^2 e^(-x) dx = {result} (Expected: 2), Evaluation Count: {Quadratures.EvaluationCount}, Python (Scipy): 165");
 
         // Example 9: Infinite limit integral ∫_0^∞ e^(-x^2) dx (Expected: √π/2)
         Quadratures.ResetEvaluationCount();
         result = Quadratures.integrate(
             (x) => Math.Exp(-x * x), 0, double.PositiveInfinity, 1e-6, 1e-6, double.NaN, double.NaN
         );
-        Console.WriteLine($"∫_0^∞ e^(-x²) dx = {result} (Expected: {Math.Sqrt(Math.PI) / 2}), Evaluation Count: {Quadratures.EvaluationCount}");
-        Console.WriteLine($"Python/Numpy Evaluation Count: ~30 (for comparison)");
+        Console.WriteLine($"∫_0^∞ e^(-x²) dx = {result} (Expected: {Math.Sqrt(Math.PI) / 2}), Evaluation Count: {Quadratures.EvaluationCount}, Python (Scipy): 135");
     
     }
     static double erf(double z, double acc = 1e-6, double eps = 1e-6) {
