@@ -38,7 +38,7 @@ plot.fiterror.svg : plotdata.txt Makefile
 		' | gnuplot
 
 out.txt: main.exe
-	mono $< -fitdata decaydata.txt -dims 12,4 2> $@ > plotdata.txt;
+	mono $< -fitdata decaydata.txt -dims 12,4 >$@;
 
 main.exe: main.cs matrix.dll jacobi.dll qr.dll fit.dll; $(MKEXE)
 
@@ -51,7 +51,4 @@ qr.dll: qr.cs matrix.dll; $(MKLIB)
 matrix.dll : ../matrix/vector.cs ../matrix/matrix.cs; $(MKLIB)
 
 clean:
-	$(RM) *.dll *.exe [Oo]ut*
-
-cleanouts:
-	$(RM) *.txt *.svg *.gpi *.svg
+	$(RM) *.dll *.exe [Oo]ut* plotdata.txt *.gpi *.svg
