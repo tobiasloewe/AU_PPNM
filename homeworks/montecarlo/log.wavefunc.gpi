@@ -3,8 +3,8 @@
 	set output "plot.mcwitherror.png"; \
 	set key top ;\
 	set grid;\
-	set xlabel "r [Bohr]" ;\
-	set ylabel "Psi" ;\
+	set xlabel "Number of points" ;\
+	set ylabel "Calculated Value" ;\
 	set logscale xy; \
 	plot  \
 		"mcAndError.txt" index 0 using 1:2:3 with yerrorbars title "mc", \
