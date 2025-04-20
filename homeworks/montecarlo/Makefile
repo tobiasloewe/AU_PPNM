@@ -15,7 +15,7 @@ plot.gaussian2D.png : gaussian2D.txt Makefile
 	echo ' \
 		set terminal png; \
 		set output "$@"; \
-		set key top ;\
+		set key bottom left ;\
 		set title "Error in Monte-Carlo 2D Gaussian Calculation"; \
 		set grid;\
 		set xlabel "number of points" ;\
@@ -23,7 +23,9 @@ plot.gaussian2D.png : gaussian2D.txt Makefile
 		set logscale xy; \
 		plot  \
 			"$<" index 0 using 1:3 with linespoints lw 2 title "estimated error", \
-			"$<" index 0 using 1:4 with linespoints lw 2 title "actual error" \
+			"$<" index 0 using 1:4 with linespoints lw 2 title "actual error", \
+			"$<" index 0 using 1:5 with linespoints lw 2 title "quasi estimated error", \
+			"$<" index 0 using 1:6 with linespoints lw 2 title "quasi actual error" \
 	' | gnuplot
 
 plot.unitCircle.png : unitCircle.txt Makefile
