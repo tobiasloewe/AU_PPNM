@@ -38,6 +38,7 @@ plot.unitCircle.png : unitCircle.txt Makefile
 		set xlabel "number of points" ;\
 		set ylabel "Error" ;\
 		set logscale xy; \
+		set yrange [0.0000000000000000001:1]; \
 		plot  \
 			"$<" index 0 using 1:3 with linespoints lw 2 title "plain estimated error", \
 			"$<" index 0 using 1:4 with linespoints lw 2 title "plain actual error", \

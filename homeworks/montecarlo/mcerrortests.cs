@@ -39,22 +39,29 @@ class MCErrorTests
 
     public static void MonteCarloTest(
         Func<vector, double> func, vector lowerBound, vector upperBound,
-        int minN, int maxN, double idealresult, string filename)
+        int minN, int maxN, double idealresult, string filename, double minLogValue = 1e-308)
     {
         using (var writer = new System.IO.StreamWriter(filename))
         {
             writer.WriteLine("N Result EstimatedError ActualError QuasiEstimatedError QuasiActualError");
-            for (int N = minN; N <= maxN; N *= 10)
-            {
-                var (result, estimatedError) = Montecarlo.plain(func, lowerBound, upperBound, N);
-                var (resultQ, estimatedErrorQ) = Montecarlo.quasi(func, lowerBound, upperBound, N);
-                // Compare results from plain and quasi
-                double actualError = Math.Abs(idealresult - result); // Replace Math.PI with the expected value if different
-                double actualErrorQ = Math.Abs(idealresult - resultQ);
-                // Print results
-                writer.WriteLine($"{N} {result} {estimatedError} {actualError} {estimatedErrorQ} {actualErrorQ}");
-            }
-            Console.WriteLine($"Results from montecarlo plain and quasi test written to {filename}.");
+        for (int N = minN; N <= maxN; N *= 10)
+        {
+            var (result, estimatedError) = Montecarlo.plain(func, lowerBound, upperBound, N);
+            var (resultQ, estimatedErrorQ) = Montecarlo.quasi(func, lowerBound, upperBound, N);
+            
+            double actualError = Math.Abs(idealresult - result);
+            double actualErrorQ = Math.Abs(idealresult - resultQ);
+
+            // Replace zeros with the smallest positive double
+            if (estimatedError == 0) estimatedError = minLogValue;
+            if (actualError == 0) actualError = minLogValue;
+            if (estimatedErrorQ == 0) estimatedErrorQ = minLogValue;
+            if (actualErrorQ == 0) actualErrorQ = minLogValue;
+
+            writer.WriteLine($"{N} {result} {estimatedError} {actualError} {estimatedErrorQ} {actualErrorQ}");
         }
+        writer.Close();
+    }
+    Console.WriteLine($"Results from montecarlo plain and quasi test written to {filename}.");
     }
 }

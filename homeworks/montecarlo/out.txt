@@ -2,6 +2,6 @@ Results from montecarlo plain and quasi test written to unitCircle.txt.
 Results from montecarlo plain and quasi test written to gaussian2D.txt.
 Monte Carlo Integration Result for hard integral:
 N: 1000000
-Result: 1.49375517653942
-Estimated Error: 0.116843381574484
-Actual Error: 0.100551300022026
+Result: 1.3903800982411
+Estimated Error: 0.00789979196807814
+Actual Error: 0.00282377827629854
