@@ -38,7 +38,7 @@ plot.unitCircle.png : unitCircle.txt Makefile
 		set xlabel "number of points" ;\
 		set ylabel "Error" ;\
 		set logscale xy; \
-		set yrange [0.0000000000000000001:1]; \
+		set yrange [0.0000000001:1]; \
 		plot  \
 			"$<" index 0 using 1:3 with linespoints lw 2 title "plain estimated error", \
 			"$<" index 0 using 1:4 with linespoints lw 2 title "plain actual error", \
@@ -46,15 +46,20 @@ plot.unitCircle.png : unitCircle.txt Makefile
 			"$<" index 0 using 1:6 with linespoints lw 2 title "quasi actual error" \
 	' | gnuplot
 
-out.txt: mcerrortests.exe hardintegral.exe
+out.txt: mcerrortests.exe hardintegral.exe strata.exe
 	mono $< -minN $(MIN_N) -maxN $(MAX_N) >$@;
-	mono hardintegral.exe -N 1000000 >>$@;
+	mono hardintegral.exe -N 100000 >>$@;
+	mono strata.exe -N 10000 >>$@;
 
 mcerrortests.exe: mcerrortests.cs matrix.dll montecarlo.dll; $(MKEXE)
 
 hardintegral.exe: hardintegral.cs matrix.dll montecarlo.dll sfuns.dll; $(MKEXE)
 
-montecarlo.dll: ../libraries/montecarlo.cs matrix.dll; $(MKLIB)
+strata.exe: strata.cs matrix.dll montecarlo.dll; $(MKEXE)
+
+genlist.dll: ../libraries/genlist.cs; $(MKLIB)
+
+montecarlo.dll: ../libraries/montecarlo.cs matrix.dll genlist.dll; $(MKLIB)
 
 matrix.dll : ../libraries/vector.cs ../libraries/matrix.cs; $(MKLIB)
 

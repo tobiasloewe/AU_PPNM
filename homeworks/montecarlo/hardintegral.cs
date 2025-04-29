@@ -23,10 +23,12 @@ class MCErrorTests
         double idealresult = Math.Pow(sfuns.fgamma(0.25), 4) / (4 * Math.Pow(Math.PI, 3));
 
         var (result, error) = Montecarlo.plain(integrand, lowerBound, upperBound, N);
-        Console.WriteLine("Monte Carlo Integration Result for hard integral:");
+        var (result2, error2) =  Montecarlo.stratified(integrand, lowerBound, upperBound, N, 1e-6);
+        Console.WriteLine("\nMonte Carlo Integration Result for hard integral:");
         Console.WriteLine($"N: {N}");
-        Console.WriteLine($"Result: {result}");
-        Console.WriteLine($"Estimated Error: {error}");
-        Console.WriteLine($"Actual Error: {Math.Abs(idealresult - result)}");
+        Console.WriteLine($"Plain, Stratified results:");
+        Console.WriteLine($"Result: {result} {result2}");
+        Console.WriteLine($"Estimated Error: {error} {error2}");
+        Console.WriteLine($"Actual Error: {Math.Abs(idealresult - result)} {Math.Abs(idealresult - result2)}");
 }
 }
