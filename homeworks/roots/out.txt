@@ -1,12 +1,2 @@
-Rosenbrock function:
-Root found:          1          1 
-Gradient at root:   1.13e-06  -7.95e-07 
-Himmelblau function:
-Root 1 found at:          3          2 
-Grad value:   2.82e-05   2.24e-06 
-Root 2 found at:      -2.81       3.13 
-Grad value:  -6.88e-08   1.66e-07 
-Root 3 found at:      -3.78      -3.28 
-Grad value:  -2.99e-07  -2.34e-08 
-Root 4 found at:       3.58      -1.85 
-Grad value:   2.49e-07   4.67e-09 
+Computed E0 = -0.4999751084258
+Wavefunction written to wavefunc.txt
