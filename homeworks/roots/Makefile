@@ -5,7 +5,43 @@ MKEXE = mcs -out:$@ -target:exe $(DLLS) $(CODE)
 CSC = mcs
 RUN = mono
 
-all: plot.wavefunc.png plot.rmaxconvergence.png
+all: plot.wavefunc.png plot.rmaxconvergence.png plot.rminconvergence.png plot.accconvergence.png plot.epsconvergence.png
+
+plot.epsconvergence.png : Makefile out.txt
+		echo ' \
+			set terminal png; \
+			set output "$@"; \
+			set key top ;\
+			set grid; \
+			set xlabel "rmin [Bohr]" ;\
+			set ylabel "computed E [Hartree]" ;\
+			plot  \
+				"convergence.txt" index 3 using 1:2 with linespoints lw 2 title "num" \
+		' | gnuplot
+
+plot.accconvergence.png : Makefile out.txt
+		echo ' \
+			set terminal png; \
+			set output "$@"; \
+			set key top ;\
+			set grid; \
+			set xlabel "rmin [Bohr]" ;\
+			set ylabel "computed E [Hartree]" ;\
+			plot  \
+				"convergence.txt" index 2 using 1:2 with linespoints lw 2 title "num" \
+		' | gnuplot
+
+plot.rminconvergence.png : Makefile out.txt
+		echo ' \
+			set terminal png; \
+			set output "$@"; \
+			set key top ;\
+			set grid; \
+			set xlabel "rmin [Bohr]" ;\
+			set ylabel "computed E [Hartree]" ;\
+			plot  \
+				"convergence.txt" index 1 using 1:2 with linespoints lw 2 title "num" \
+		' | gnuplot
 
 plot.rmaxconvergence.png : Makefile out.txt
 		echo ' \
@@ -40,6 +76,11 @@ out.txt: main.exe shooting.exe
 main.exe: main.cs matrix.dll roots.dll; $(MKEXE)
 
 shooting.exe: shooting.cs matrix.dll roots.dll ode.dll genlist.dll; $(MKEXE)
+
+debug.exe: debug.cs matrix.dll roots.dll ode.dll genlist.dll; $(MKEXE)
+
+debug.txt: debug.exe
+	$(RUN) $< >$@;
 
 ode.dll: ../libraries/ode.cs matrix.dll genlist.dll; $(MKLIB)
 

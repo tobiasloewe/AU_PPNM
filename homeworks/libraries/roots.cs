@@ -13,15 +13,21 @@ public static class Roots
     ){
     vector x=start.copy();
     vector fx=f(x),z,fz;
+    Console.Error.WriteLine("before do");
     do{ /* Newton's iterations */
         x.print("x: ", file: System.Console.Error);
         if(fx.norm() < acc) break; /* job done */
         matrix J=jacobian(f,x,fx,δx);
+        Console.Error.WriteLine("after jacobian");
         vector Dx = QR.solve(J,-fx); /* Newton's step */
+        Console.Error.WriteLine("after QR.solve");
         double λ=1;
         do{ /* linesearch */
             z=x+λ*Dx;
+            Console.Error.WriteLine("doloop");
+            z.print("z: ", file: System.Console.Error);
             fz=f(z);
+            Console.Error.WriteLine("after fz");
             if( fz.norm() < (1-λ/2)*fx.norm() ) break;
             if( λ < λmin ) break;
             λ/=2;

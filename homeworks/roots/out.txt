@@ -1,2 +1,0 @@
-Computed E0 = -0.4999751084258
-Wavefunction written to wavefunc.txt
