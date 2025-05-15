@@ -1,0 +1,6 @@
+Minimum of Rosenbrock's function found after 20 steps at:         1          1 
+Minimum of Himmelblau's function found after 5 steps at:         3          2 
+Minimum of Himmelblau's function found after 3 steps at:     -2.81       3.13 
+Minimum of Himmelblau's function found after 3 steps at:     -3.78      -3.28 
+Minimum of Himmelblau's function found after 3 steps at:      3.58      -1.85 
+Minimum of Himmelblau's function found after 3000 steps at:    -0.255     -0.893 
