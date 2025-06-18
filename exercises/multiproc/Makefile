@@ -6,7 +6,7 @@ MKEXE = mcs -out:$@ -target:exe $(DLLS) $(CODE)
 TIME = time --format "$$nthreads %e %U" --append --output $@
 
 MAX_THREADS = 64
-N=5e8
+N=5e7
 
 nthreadlist = $(shell seq 1 $(MAX_THREADS))
 
@@ -19,9 +19,13 @@ Out.txt : main.exe Makefile
 	
 	#printf "\n this was manual threading\n" >>$@
 	$(TIME) mono $< -terms $N -threads 1 -mode 1 2>> log1.txt >>$@
-	#printf "this was mode 1\n" >>$@
+	@echo " " >>$@
+	@echo "this was mode 1\n" >>$@
+	
 	$(TIME) mono $< -terms $N -threads 1 -mode 2 2>> log2.txt >>$@
-	#printf "this was mode 2\n" >>$@
+	@echo "this was mode 2\n" >>$@
+	@echo " " >>$@
+	@echo "Computation finished.\n Mode 2 might have more scheduling overhead than our simple multithreading approach and is therefore slower" >>$@
 main.exe: main.cs; $(MKEXE)
 
 plot.threads.svg: Out.txt Makefile
@@ -40,4 +44,4 @@ plot.threads.svg: Out.txt Makefile
 
 
 clean:
-	rm -f *.exe *.dll Out.txt
+	rm -f *.exe *.dll Out.txt *.svg
