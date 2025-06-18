@@ -1,5 +1,7 @@
 Int.MaxValue = 2147483647
 My max int: 2147483647
+Int.MinValue = -2147483648
+My min int: -2147483648
 My machine epsilon for double: 2.22044604925031E-16
 Compare with 2^(-52) = 2.22044604925031E-16
 My machine epsilon for float: 1.192093E-07

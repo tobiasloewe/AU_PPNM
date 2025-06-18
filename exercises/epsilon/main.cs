@@ -3,8 +3,12 @@ using static System.Console;
 class main{
 static int Main(){
         int myMaxInt = epsilon.testMaxInt();
+        int myMinInt = epsilon.testMinInt();
         WriteLine($"Int.MaxValue = {int.MaxValue}");
 		WriteLine($"My max int: {myMaxInt}");
+
+        WriteLine($"Int.MinValue = {int.MinValue}");
+        WriteLine($"My min int: {myMinInt}");
         
         double myMinDouble = epsilon.testMinDouble();
         WriteLine($"My machine epsilon for double: {myMinDouble}");

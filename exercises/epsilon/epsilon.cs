@@ -12,12 +12,13 @@ public class epsilon
     // Find the largest integer before overflow
     public static int testMaxInt()
     {
-        int max = 1;
-        while (max > 0) // Stop when overflow makes it negative
-        {
-            max *= 2;
-        }
-        return max - 1; // Last valid positive int
+        int i=1; while(i+1>i) {i++;}
+        return i; // Last valid positive int
+    }
+    public static int testMinInt()
+    {
+        int i=-1; while(i-1<i) {i--;}
+        return i; // Last valid negative int
     }
 
     // Compute machine epsilon for double
