@@ -3,6 +3,8 @@ LIBS = $(addprefix -reference:,$(filter %.dll,$^))
 MKEXE = mcs -target:exe -out:$@ $(LIBS) $(CODE)
 MKLIB = mcs -target:library -out:$@ $(LIBS) $(CODE)
 
+all: main.exe sfuns.dll plot.lngamma.svg plot.gamma.svg plot.erf.svg
+
 data.txt: main.exe
 	mono $< > $@
 
@@ -44,4 +46,4 @@ sfuns.dll : sfuns.cs ; $(MKLIB)
 main.exe : main.cs sfuns.dll; $(MKEXE)
 
 clean:	
-	$(RM) *.exe *.dll [Oo]ut* [Ll]og*
+	$(RM) *.exe *.dll [Oo]ut* [Ll]og* *.svg
