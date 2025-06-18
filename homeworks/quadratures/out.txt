@@ -1,0 +1,14 @@
+∫_0^1 √(x) dx = 0.666953909054655 (Expected: 2/3)
+∫_0^1 1/√(x) dx = 1.99996150007805 (Expected: 2)
+∫_0^1 √(1-x²) dx = 0.785812493721639 (Expected: π/2)
+∫_0^1 ln(x)/√(x) dx = -3.99991705899915 (Expected: -4)
+erf(0.5) = 0.520499877681978 (Expected: ~0.5205)
+erf(1.5) = 0.988353292358887 (Expected: ~0.9661)
+erf(0) = 0 (Expected: 0)
+erf(2) = 0.998593039699672 (Expected: ~0.9953)
+erf(-1) = -0.842700794192611 (Expected: ~-0.8427)
+CCintegrate ∫_0^1 1/√(x) dx = 1.99999999993764 (Expected: 2), Evaluation Count: 352, Python (Scipy): 231
+CCintegrate ∫_0^1 ln(x)/√(x) dx = -3.99999813339603 (Expected: -4), Evaluation Count: 272, Python (Scipy): 315
+∫_0^∞ e^(-x) dx = 0.999999988000672 (Expected: 1), Evaluation Count: 540, Python (Scipy): 135
+∫_0^∞ x^2 e^(-x) dx = 1.99999994961855 (Expected: 2), Evaluation Count: 1336, Python (Scipy): 165
+∫_0^∞ e^(-x²) dx = 0.886226637344603 (Expected: 0.886226925452758), Evaluation Count: 668, Python (Scipy): 135

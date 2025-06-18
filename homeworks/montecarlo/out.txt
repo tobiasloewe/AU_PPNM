@@ -1,0 +1,12 @@
+Results from montecarlo plain and quasi test written to unitCircle.txt.
+Results from montecarlo plain and quasi test written to gaussian2D.txt.
+
+Monte Carlo Integration Result for hard integral:
+N: 100000
+Plain, Stratified results:
+Result: 1.34473157388268 NaN
+Estimated Error: 0.00880853998790741 NaN
+Actual Error: 0.0484723026347211 NaN
+
+Monte Carlo Integration Result with stratified sampling:
+Easy integral error NaN, estimated error NaN

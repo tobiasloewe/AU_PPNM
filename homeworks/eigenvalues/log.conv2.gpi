@@ -1,0 +1,10 @@
+ \
+	set terminal svg; \
+	set output "plot.conv2.svg"; \
+	set key top ;\
+	set xlabel "dr" ;\
+	set ylabel "lowest energy" ;\
+	set xrange [*:*] reverse ;\
+	plot  \
+		"convdata.txt" index 1 using 2:3 with lines title "H atom EVD with cyclic Jacobi" \
+
