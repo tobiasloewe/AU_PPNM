@@ -6,7 +6,7 @@ CSC = mcs
 RUN = mono
 
 
-all: out.txt plot.erf1.png;
+all: Out.txt plot.erf1.png;
 
 plot.erf1.png : erf1.txt Makefile
 		echo ' \
@@ -25,7 +25,7 @@ plot.erf1.png : erf1.txt Makefile
 				2.22*1e-16 with lines lw 2 title "Machine Epsilon" \
 		' | gnuplot
 
-out.txt: main.exe
+Out.txt: main.exe
 	mono $< >$@;
 
 main.exe: main.cs matrix.dll quadratures.dll genlist.dll; $(MKEXE)

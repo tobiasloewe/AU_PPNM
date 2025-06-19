@@ -19,7 +19,7 @@ class main{
         result = Quadratures.integrate(
             (x) => Math.Sqrt(1 - x * x), 0, 1, 0.001, 0.001, double.NaN, double.NaN
         );
-        Console.WriteLine($"∫_0^1 √(1-x²) dx = {result} (Expected: π/2)");
+        Console.WriteLine($"∫_0^1 √(1-x²) dx = {result} (Expected: π/4)");
 
         // Example 4
         result = Quadratures.integrate(
