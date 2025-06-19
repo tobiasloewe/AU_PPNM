@@ -9,7 +9,7 @@ MIN_N = 100
 MAX_N = 1000000
 nlist = $(shell awk 'BEGIN { for (i=$(MIN_N); i<=$(MAX_N); i*=10) print i }')
 
-all: out.txt plot.unitCircle.png plot.gaussian2D.png
+all: Out.txt plot.unitCircle.png plot.gaussian2D.png
 
 plot.gaussian2D.png : gaussian2D.txt Makefile
 	echo ' \
@@ -46,9 +46,9 @@ plot.unitCircle.png : unitCircle.txt Makefile
 			"$<" index 0 using 1:6 with linespoints lw 2 title "quasi actual error" \
 	' | gnuplot
 
-out.txt: mcerrortests.exe hardintegral.exe strata.exe
+Out.txt: mcerrortests.exe hardintegral.exe strata.exe
 	mono $< -minN $(MIN_N) -maxN $(MAX_N) >$@;
-	mono hardintegral.exe -N 100000 >>$@;
+	mono hardintegral.exe -N 10000 >>$@;
 	mono strata.exe -N 10000 >>$@;
 
 mcerrortests.exe: mcerrortests.cs matrix.dll montecarlo.dll; $(MKEXE)
