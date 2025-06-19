@@ -75,7 +75,7 @@ class Program
             Console.Error.WriteLine("Convergence tests written to convergence.txt");
             convwrite.WriteLine();
             convwrite.WriteLine();  
-            double[] eps_values = new double[] { 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7 };
+            /*double[] eps_values = new double[] { 1e-2, 1e-3, 1e-4, 1e-5, 1e-6, 1e-7 };
             foreach (double eps_val in eps_values)
             {
                 vector Eguess = new vector(-0.5);
@@ -84,7 +84,7 @@ class Program
                 vector E_root_eps = Roots.newton(F_E_eps, Eguess, 1e-2);
                 Console.Error.WriteLine("debug 2" );
                 convwrite.WriteLine($"{eps_val}, {E_root_eps[0]:G7}");
-            }
+            }*/
         }
         
     }

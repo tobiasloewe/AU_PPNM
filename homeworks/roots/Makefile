@@ -5,25 +5,16 @@ MKEXE = mcs -out:$@ -target:exe $(DLLS) $(CODE)
 CSC = mcs
 RUN = mono
 
-all: plot.wavefunc.png plot.rmaxconvergence.png plot.rminconvergence.png plot.accconvergence.png plot.epsconvergence.png
+all: plot.wavefunc.png plot.rmaxconvergence.png plot.rminconvergence.png plot.accconvergence.png
 
-plot.epsconvergence.png : Makefile out.txt
+
+
+plot.accconvergence.png : Makefile Out.txt
 		echo ' \
 			set terminal png; \
 			set output "$@"; \
 			set key top ;\
-			set grid; \
-			set xlabel "rmin [Bohr]" ;\
-			set ylabel "computed E [Hartree]" ;\
-			plot  \
-				"convergence.txt" index 3 using 1:2 with linespoints lw 2 title "num" \
-		' | gnuplot
-
-plot.accconvergence.png : Makefile out.txt
-		echo ' \
-			set terminal png; \
-			set output "$@"; \
-			set key top ;\
+			set title "acc convergence" ;\
 			set grid; \
 			set xlabel "rmin [Bohr]" ;\
 			set ylabel "computed E [Hartree]" ;\
@@ -31,9 +22,10 @@ plot.accconvergence.png : Makefile out.txt
 				"convergence.txt" index 2 using 1:2 with linespoints lw 2 title "num" \
 		' | gnuplot
 
-plot.rminconvergence.png : Makefile out.txt
+plot.rminconvergence.png : Makefile Out.txt
 		echo ' \
 			set terminal png; \
+			set title "rmin convergence" ;\
 			set output "$@"; \
 			set key top ;\
 			set grid; \
@@ -43,10 +35,11 @@ plot.rminconvergence.png : Makefile out.txt
 				"convergence.txt" index 1 using 1:2 with linespoints lw 2 title "num" \
 		' | gnuplot
 
-plot.rmaxconvergence.png : Makefile out.txt
+plot.rmaxconvergence.png : Makefile Out.txt
 		echo ' \
 			set terminal png; \
 			set output "$@"; \
+			set title "rmax convergence" ;\
 			set key top ;\
 			set grid; \
 			set xlabel "rmax [Bohr]" ;\
@@ -56,9 +49,10 @@ plot.rmaxconvergence.png : Makefile out.txt
 				"convergence.txt" index 0 using 1:2 with lines lw 2 title "num" \
 		' | gnuplot
 
-plot.wavefunc.png : Makefile out.txt
+plot.wavefunc.png : Makefile Out.txt
 		echo ' \
 			set terminal png; \
+			set title "wavefunction" ;\
 			set output "$@"; \
 			set key top ;\
 			set grid; \
@@ -69,7 +63,7 @@ plot.wavefunc.png : Makefile out.txt
 				"wavefunc.txt" index 0using 1:3 with lines lw 2 title "exact" \
 		' | gnuplot
 
-out.txt: main.exe shooting.exe
+Out.txt: main.exe shooting.exe
 	$(RUN) $< >$@;
 	$(RUN) shooting.exe >$@;
 
