@@ -55,10 +55,10 @@ plot.cubic.png : data.txt splinedata.txt Makefile
 		' | gnuplot
 
 # I want the output from main.exe to be in splinedata.txt and the error to be in out.txt
-out.txt: main.exe
+Out.txt: main.exe
 	mono $< -data data.txt > splinedata.txt 2>$@; 
 
-splinedata.txt: out.txt;
+splinedata.txt: Out.txt;
 
 main.exe: main.cs fit.dll matrix.dll; $(MKEXE)
 
