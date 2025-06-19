@@ -67,7 +67,7 @@ plot.losscurve.png : rawlosses.txt Makefile
 
 
 Out.txt: main.exe
-	$(RUN) $< -samples 1000 -lossfile rawlosses.txt -plotdatafile results.txt >$@;
+	$(RUN) $< -samples 500 -lossfile rawlosses.txt -plotdatafile results.txt >$@;
 
 main.exe: main.cs matrix.dll ann.dll; $(MKEXE)
 

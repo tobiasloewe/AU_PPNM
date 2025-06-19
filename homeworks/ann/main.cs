@@ -60,11 +60,11 @@ class Program
         }
 
         // Train the network
-        int nNeurons = 20; // Number of neurons in the hidden layer
-        int epochs = 500;
+        int nNeurons = 7; // Number of neurons in the hidden layer
+        int epochs = 100;
         double maxLoss = 10.0;
         double minLoss = 0.1;
-        double lrate = 0.01;
+        double lrate = 0.05;
         vector initweights = new vector(1.0,1.0,1.0);
 
         Console.WriteLine($"Training parameters:");
