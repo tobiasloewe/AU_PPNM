@@ -1,5 +1,6 @@
  \
 	set terminal svg; \
+	set title "Convergence of rmax"; \
 	set output "plot.conv1.svg"; \
 	set key bottom ;\
 	set xlabel "rmax" ;\

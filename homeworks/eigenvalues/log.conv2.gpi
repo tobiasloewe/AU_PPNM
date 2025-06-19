@@ -1,5 +1,6 @@
  \
 	set terminal svg; \
+	set title "Convergence of dr"; \
 	set output "plot.conv2.svg"; \
 	set key top ;\
 	set xlabel "dr" ;\

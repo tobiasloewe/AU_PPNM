@@ -28,5 +28,18 @@ class Testing{
     matrix isThisA = V*D*(V.T);
     WriteLine($"Is V*D*V.T = A? {A.approx(isThisA)}");
     D.print("This is D: ");
+
+    // Check V^T*A*V == D
+    matrix VT = V.T;
+    matrix VTAV = VT * A * V;
+    WriteLine($"Is V.T*A*V = D? {D.approx(VTAV)}");
+
+    // Check v_i^T*v_j == delta_ij (orthonormality)
+    matrix VTV = VT * V;
+    WriteLine($"Is V.T*V = 1 (identity)? {VTV.approx(matrix.id(n))}");
+
+    // Check V*V^T == 1 (identity)
+    matrix VVT = V * VT;
+    WriteLine($"Is V*V.T = 1 (identity)? {VVT.approx(matrix.id(n))}");
 }
 }

@@ -10,3 +10,6 @@ This is D:
          0          0          0          0          0          0          0       1.08          0          0 
          0          0          0          0          0          0          0          0       1.44          0 
          0          0          0          0          0          0          0          0          0       5.23 
+Is V.T*A*V = D? True
+Is V.T*V = 1 (identity)? True
+Is V*V.T = 1 (identity)? True
