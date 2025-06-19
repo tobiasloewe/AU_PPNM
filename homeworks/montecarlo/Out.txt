@@ -4,9 +4,9 @@ Results from montecarlo plain and quasi test written to gaussian2D.txt.
 Monte Carlo Integration Result for hard integral:
 N: 10000
 Plain, Stratified results:
-Result: 1.48211270908717 NaN
-Estimated Error: 0.115129363914327 NaN
-Actual Error: 0.088908832569774 NaN
+Result: 1.35181102899122 NaN
+Estimated Error: 0.0210476898537008 NaN
+Actual Error: 0.0413928475261813 NaN
 
 Monte Carlo Integration Result with stratified sampling:
 Easy integral error NaN, estimated error NaN

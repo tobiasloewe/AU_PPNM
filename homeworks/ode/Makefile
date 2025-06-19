@@ -6,7 +6,7 @@ CSC = mcs
 RUN = mono
 
 
-all: plot.harmonic.png plot.pendulum.png plot.orbits.png;
+all: plot.harmonic.png plot.pendulum.png plot.orbits.png Out.txt;
 
 plot.orbits.png : orbit1.txt orbit2.txt orbit3.txt Makefile
 	echo ' \
@@ -54,18 +54,19 @@ plot.pendulum.png : pendulum.txt Makefile
 			"$<" index 0 using 1:3 with lines lw 2 lc rgb "blue" title "u2"\
 	' | gnuplot
 
-out.txt: main.exe
+Out.txt: main.exe
 	mono $< >$@;
+	@echo 'Calculation done' >>$@;
 
-pendulum.txt: out.txt;
+pendulum.txt: Out.txt;
 
-harmonic.txt: out.txt; 
+harmonic.txt: Out.txt; 
 
-orbit1.txt: out.txt; 
+orbit1.txt: Out.txt; 
 
-orbit2.txt: out.txt;
+orbit2.txt: Out.txt;
 
-orbit3.txt: out.txt;
+orbit3.txt: Out.txt;
 
 main.exe: main.cs matrix.dll ode.dll genlist.dll; $(MKEXE)
 
