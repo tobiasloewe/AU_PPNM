@@ -1,3 +1,5 @@
+2D Integration Examples using Integ2D Class
+
 Example 1: ∫₀¹ dx ∫₀¹ dy (x*y)
 Computed: 0.25, Expected: 0.25, Error: 0
 
@@ -6,4 +8,13 @@ Computed: 0.5, Expected: 0.5, Error: 0
 
 Example 3: ∫₀^π dx ∫₀¹ dy (sin(x))
 Computed: 1.99999999996887, Expected: 2, Error: 3.1125768629181E-11
+
+Example 4: ∫₀¹ dx ∫₀¹ dy cos(10(x+y))
+Computed: -0.0308622511996008, Expected: 0.0200098747250637, Error: 0.0508721259246645
+
+Example 5: ∫_{-2}^{2} dx ∫_{-2}^{2} dy e^{-(x^2 + y^2)}
+Computed: 3.11227032599748, Expected: 3.11226953525575, Error: 7.90741731648836E-07
+
+Example 6: ∫₀¹ dx ∫₀^{1-x} x*y dy
+Computed: 0.0416666666666667, Expected: 0.0416666666666667, Error: 6.93889390390723E-18
 
