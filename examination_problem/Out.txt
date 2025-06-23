@@ -1,0 +1,9 @@
+Example 1: ∫₀¹ dx ∫₀¹ dy (x*y)
+Computed: 0.25, Expected: 0.25, Error: 0
+
+Example 2: ∫₀¹ dx ∫₀ˣ dy (1)
+Computed: 0.5, Expected: 0.5, Error: 0
+
+Example 3: ∫₀^π dx ∫₀¹ dy (sin(x))
+Computed: 1.99999999996887, Expected: 2, Error: 3.1125768629181E-11
+
