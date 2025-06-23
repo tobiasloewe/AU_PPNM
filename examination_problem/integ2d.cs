@@ -3,7 +3,7 @@ using System;
 public static class Integ2D
 {
     public static double Simpson1D(
-        Func<double, double> f, double a, double b, double acc, double eps, double f2 = double.NaN, double f3 = double.NaN, int limit = 1000)
+        Func<double, double> f, double a, double b, double acc, double eps, double f2 = double.NaN, double f3 = double.NaN, int limit = 100)
     {
         double h = b - a;
         double f1 = f(a + h / 6);
@@ -21,8 +21,8 @@ public static class Integ2D
         else
         {
             double mid = (a + b) / 2;
-            return Integrate1D(f, a, mid, acc / Math.Sqrt(2), eps, f1, f2, limit - 1)
-                 + Integrate1D(f, mid, b, acc / Math.Sqrt(2), eps, f3, f4, limit - 1);
+            return Simpson1D(f, a, mid, acc / Math.Sqrt(2), eps, f1, f2, limit - 1)
+                 + Simpson1D(f, mid, b, acc / Math.Sqrt(2), eps, f3, f4, limit - 1);
         }
     }
 
@@ -34,15 +34,14 @@ public static class Integ2D
         double acc, double eps)
     {
         Func<double, double> outerIntegrand = x =>
-            Integrate1D(
+            Simpson1D(
                 y => f(x, y),
                 d(x), u(x),
                 acc / 2, eps / 2
             );
 
-        return Integrate1D(outerIntegrand, a, b, acc / 2, eps / 2);
+        return Simpson1D(outerIntegrand, a, b, acc / 2, eps / 2);
     }
-
     public static double IntegrateGrid(
         Func<double, double, double> f,
         double a, double b,
@@ -62,78 +61,35 @@ public static class Integ2D
         double acc, double eps,
         int depth)
     {
-        // Midpoints in x
         double xm = 0.5 * (x0 + x1);
 
-        // Compute y-range at three x values
+        // Compute y-range at key x-points
         double y0min = d(x0), y0max = u(x0);
         double y1min = d(xm), y1max = u(xm);
         double y2min = d(x1), y2max = u(x1);
 
-        
+        double ylo = Math.Min(y0min, Math.Min(y1min, y2min));
+        double yhi = Math.Max(y0max, Math.Max(y1max, y2max));
 
-        double I_full = 0.0;
-        int n_subdiv = 2;
+        // Estimate over full tile
+        double I_coarse = Simpson2D(f, x0, x1, x => ylo, x => yhi, acc, eps);
 
-        // Split x range into two subintervals and apply Simpson in each half
-        for (int i = 0; i < n_subdiv; i++)
-        {
-            double xa = (i == 0) ? x0 : xm;
-            double xb = (i == 0) ? xm : x1;
+        // Estimate over two halves
+        double I_fine =
+            Simpson2D(f, x0, xm, x => ylo, x => yhi, acc / Math.Sqrt(2), eps) +
+            Simpson2D(f, xm, x1, x => ylo, x => yhi, acc / Math.Sqrt(2), eps);
 
-            double ya = d(xa);
-            double yb = u(xa);
-            double yc = d(xb);
-            double yd = u(xb);
+        double err = Math.Abs(I_coarse - I_fine);
 
-            double ylo = Math.Min(ya, yc);
-            double yhi = Math.Max(yb, yd);
-
-            double I_part = approx(xa, xb, ylo, yhi);
-            I_full += I_part;
-        }
-
-        // Coarse approximation
-        double I_coarse = approx(x0, x1,
-            Math.Min(y0min, Math.Min(y1min, y2min)),
-            Math.Max(y0max, Math.Max(y1max, y2max))
-        );
-
-        double err = Math.Abs(I_coarse - I_full);
-
-        if (err < acc + eps * Math.Abs(I_full) || depth == 0)
-            return I_full;
+        if (err < acc + eps * Math.Abs(I_fine) || depth == 0)
+            return I_fine;
         else
         {
-            // Subdivide horizontally
             double left = IntegrateTile(f, x0, xm, d, u, acc / Math.Sqrt(2), eps, depth - 1);
             double right = IntegrateTile(f, xm, x1, d, u, acc / Math.Sqrt(2), eps, depth - 1);
             return left + right;
         }
     }
 
-    // Integrate each vertical strip using 1D Simpson's rule (3 y slices)
-    public static double approx(double xA, double xB, double yA, double yB)
-        {
-            double xmA = 0.5 * (xA + xB);
-            double ymA = 0.5 * (yA + yB);
-            double f00 = f(xA, yA);
-            double f01 = f(xA, yB);
-            double f10 = f(xB, yA);
-            double f11 = f(xB, yB);
-            double f0m = f(xA, ymA);
-            double f1m = f(xB, ymA);
-            double fm0 = f(xmA, yA);
-            double fm1 = f(xmA, yB);
-            double fmm = f(xmA, ymA);
-            double hx = xB - xA;
-            double hy = yB - yA;
-
-            return (hx * hy / 36.0) * (
-                f00 + f01 + f10 + f11 +
-                4 * (f0m + f1m + fm0 + fm1) +
-                16 * fmm
-            );
-        }
 
 }

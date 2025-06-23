@@ -15,6 +15,14 @@ Computed: -0.0308622511996008, Expected: 0.0200098747250637, Error: 0.0508721259
 Example 5: ∫_{-2}^{2} dx ∫_{-2}^{2} dy e^{-(x^2 + y^2)}
 Computed: 3.11227032599748, Expected: 3.11226953525575, Error: 7.90741731648836E-07
 
+Computed with grid: 3.11227032399868, Expected: 3.11226953525575, Error: 7.90741731648836E-07
+
 Example 6: ∫₀¹ dx ∫₀^{1-x} x*y dy
 Computed: 0.0416666666666667, Expected: 0.0416666666666667, Error: 6.93889390390723E-18
+
+Grid-based adaptive integrator (cos(10(x + y))):
+Computed: -0.0308622511357021, Expected: 0.0200098747250637, Error: 0.0508721258607658
+
+Midpoint grid integrator (cos(10(x + y))):
+Computed: -0.0308624964719583, Expected: 0.0200098747250637, Error: 0.050872371197022
 
