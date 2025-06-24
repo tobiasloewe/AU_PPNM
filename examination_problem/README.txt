@@ -1,5 +1,5 @@
 ## Self assessment: 9 or 10, you decide :D
-My integrator works well, not only with basic examples.
+This project is kept pretty minimalistic but focus on the methods and numerics. My integrator works well, not only with basic examples.
 I implemented 2 more (!) methods that I think are both good for comparisons.
 The comparisons are interesting and pretty much exactly what you would expect from each.
 
