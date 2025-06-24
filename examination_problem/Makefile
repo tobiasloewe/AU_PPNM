@@ -10,13 +10,10 @@ all: Out.txt
 Out.txt: main.exe
 	$(RUN) $< >$@;
 
-main.exe: main.cs integ2d.dll midpoint.dll quadtree.dll; $(MKEXE)
+main.exe: main.cs integrate2d.dll; $(MKEXE)
 
-integ2d.dll: integ2d.cs; $(MKLIB)
+integrate2d.dll: integrate2d.cs; $(MKLIB)
 
-midpoint.dll: midpoint.cs; $(MKLIB)
-
-quadtree.dll: quadtree.cs; $(MKLIB)
 
 clean:
-	$(RM) *.dll *.exe [Oo]ut* *.svg *.txt *.png
+	$(RM) *.dll *.exe [Oo]ut* *.svg *.png

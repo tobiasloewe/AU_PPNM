@@ -1,28 +1,74 @@
-2D Integration Examples using Integ2D Class
+A: 2D Integration Examples using Integrate2D Class
 
+
+----------
 Example 1: ∫₀¹ dx ∫₀¹ dy (x*y)
-Computed: 0.25, Expected: 0.25, Error: 0
+Simpson: 0.25, Expected: 0.25, Error: 0, Function calls: 20
 
+
+----------
 Example 2: ∫₀¹ dx ∫₀ˣ dy (1)
-Computed: 0.5, Expected: 0.5, Error: 0
+Simpson: 0.5, Expected: 0.5, Error: 0, Function calls: 20
 
+COMMENT: Very few function calls (20) due to early convergence with adaptive Simpson!
+
+----------
 Example 3: ∫₀^π dx ∫₀¹ dy (sin(x))
-Computed: 1.99999999996887, Expected: 2, Error: 3.1125768629181E-11
+Simpson: 1.99999999996887, Expected: 2, Error: 3.1125768629181E-11, Function calls: 5036
 
+COMMENT: Again, low count of function calls and great accuracy!
+
+B (and C?): More examples, more methods!
+
+
+----------
 Example 4: ∫₀¹ dx ∫₀¹ dy cos(10(x+y))
-Computed: -0.0308622511996008, Expected: 0.0200098747250637, Error: 0.0508721259246645
+Simpson: -0.0308622511270934, Expected: -0.030862251199663, Error: 7.25695267767001E-11, Function calls: 2071780
 
+midpoint: -0.0308624964719583, Expected: -0.030862251199663, Error: 2.45272295324589E-07, Function calls: 1398096
+
+quad: -0.0308631226332347, Expected: -0.030862251199663, Error: 8.71433571726643E-07, Function calls: 364125
+
+COMMENT: This is an interesting one, as it has a fast oscillating cosine in diagonal direction. 
+ Simpson manages this, but with high cost.
+ Midpoint and Quad both achieve less accuracy but especcially Quad uses much less function calls.
+ This highlights how the Simpson implementation struggles with oscillating funcs like this.
+
+----------
 Example 5: ∫_{-2}^{2} dx ∫_{-2}^{2} dy e^{-(x^2 + y^2)}
-Computed: 3.11227032599748, Expected: 3.11226953525575, Error: 7.90741731648836E-07
+Simpson: 3.11227032599748, Expected: 3.11226953525575, Error: 7.90741731648836E-07, Function calls: 2378012
 
-Computed with grid: 3.11227032399868, Expected: 3.11226953525575, Error: 7.90741731648836E-07
+Midpoint: 3.11227163446344, Expected: 3.11226953525575, Error: 2.09920769300709E-06, Function calls: 349520
 
+Quad: 3.11226145344397, Expected: 3.11226953525575, Error: 8.08181177580636E-06, Function calls: 392825
+
+COMMENT: This is a Gaussian bump, which is a common test case for numerical integration. 
+ Simpson does well here, but we see that Midpoint and Quad are both more efficient in terms of function calls.
+
+----------
 Example 6: ∫₀¹ dx ∫₀^{1-x} x*y dy
-Computed: 0.0416666666666667, Expected: 0.0416666666666667, Error: 6.93889390390723E-18
+Simpson: 0.0416666666666667, Expected: 0.0416666666666667, Error: 6.93889390390723E-18, Function calls: 1292
 
-Grid-based adaptive integrator (cos(10(x + y))):
-Computed: -0.0308622511357021, Expected: 0.0200098747250637, Error: 0.0508721258607658
+Midpoint: 0.25, Expected: 0.0416666666666667, Error: 0.208333333333333, Function calls: 80
 
-Midpoint grid integrator (cos(10(x + y))):
-Computed: -0.0308624964719583, Expected: 0.0200098747250637, Error: 0.050872371197022
+Quad: 0.0417073778069721, Expected: 0.0416666666666667, Error: 4.07111403054258E-05, Function calls: 20425
 
+COMMENT: This is a triangular domain integral. 
+ Simpson does well here. Midpoint I had to call on square cause wrapper made it not converge. Midpoint does worse than Simpson.
+
+----------
+Example 7: Integral over unit disk of exp(-(x^2 + y^2)):
+Simpson: 1.98586549119894, Expected: 1.98586530379887, Error: 1.87400066797849E-07, Function calls: 643580
+
+Midpoint: 1.98586682720168, Expected: 1.98586530379887, Error: 1.52340280412666E-06, Function calls: 89478480
+
+Quad: 1.98684755606453, Expected: 1.98586530379887, Error: 0.000982252265660843, Function calls: 81305
+
+COMMENT: This is a circular domain integral. 
+ Simpson again does well here, with acceptabel cost. 
+ Midpoint has huge cost, does not do well with the masking.
+ Quad is not as accurate as simpson but very efficient.
+
+CONCLUSION: Curved domains work well with Simpson. Midpoint struggles with curved things and the masking, either not converging or taking many function calls. 
+Quad is efficient but less accurate, especially with oscillatory functions. 
+ Simpson is the best all-rounder for these examples, but Quad is a good alternative for efficiency.
